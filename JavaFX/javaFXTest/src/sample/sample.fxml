@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <AnchorPane prefHeight="356.0" prefWidth="424.0">
+         <children>
+            <Button fx:id="button1" layoutX="181.0" layoutY="168.0" mnemonicParsing="false" onAction="#setButton1Action" text="Button" />
+            <Label layoutX="178.0" layoutY="132.0" text="click here!" />
+         </children>
+      </AnchorPane>
+      <MeshView />
+   </children>
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+</GridPane>
