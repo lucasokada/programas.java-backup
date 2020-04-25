@@ -14,7 +14,7 @@ public class CreateTable {
         try {
             connection = ConnectionConfig.getConnection();
             statement = connection.createStatement();
-            statement.execute("create table if not exists coursejdbc.test(id INT NOT NULL AUTO_INCREMENT)");
+            statement.execute("create table if not exists coursejdbc.test(primary key id int not null )");
         }catch (SQLException e){
             e.printStackTrace();
         }
