@@ -1,0 +1,283 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "in_out.h"
+
+typedef struct array_list_t array_list;
+
+struct array_list_t {
+    void *data;
+    int length;
+    int capacity;
+    size_t type_size;
+};
+
+array_list *init_array_list(size_t type_size, int capacity) {
+    array_list *list = (array_list *)malloc(sizeof(array_list));
+    list->capacity = capacity;
+    list->length = 0;
+    list->type_size = type_size;
+
+    list->data = malloc(list->capacity * list->type_size);
+
+    return list;
+}
+
+int get_array_size(array_list *list) {
+    return list->length;
+}
+
+void *calculate_array_position(array_list *list, int index) {
+    if(index >= 0) {
+        return list->data + (index * list->type_size);
+    }
+
+    return NULL;
+}
+
+void print_array_list(array_list *list, void (*print) (void *)) {
+    for(int i = 0; i < list->length; i++) {
+        void *current_element = calculate_array_position(list, i);
+        print(current_element);
+    }
+
+    printf("\n");
+}
+
+int requires_realloc(int length, int capacity) {
+    if(length >= capacity) {
+        return 1;
+    }
+
+    return 0;
+}
+
+void realloc_array_list(array_list *list) {
+    list->capacity += 20;
+    list = realloc(list, list->capacity * list->type_size);
+}
+
+void push_array_list(array_list *list, void *element) {
+    if(requires_realloc(list->length, list->capacity)) {
+        realloc_array_list(list);
+    }
+
+    void *insertion_position = calculate_array_position(list, list->length);
+    memmove(insertion_position, element, list->type_size);
+    list->length++;
+    free(element);
+}
+
+int is_valid_index(int index, int length) {
+    if(index >= 0 && index <= length) {
+        return 1;
+    }
+
+    return 0;
+}
+
+void shift_right_array(array_list *list, int index) {
+    for(int i = list->length - 1; i >= index; i--) {
+        void *dest = calculate_array_position(list, i + 1);
+        void *src = dest - list->type_size;
+        memmove(dest, src, list->type_size);
+    }
+}
+
+void shift_left_array(array_list *list, int index) {
+    for(int i = index; i < list->length; i++) {
+
+        void *dest = calculate_array_position(list, i);
+        void *src = dest + list->type_size;
+        memmove(dest, src, list->type_size);
+    }
+}
+
+void insert_at_index_of_array_list(array_list *list, void *element, int index) {
+    if(is_valid_index(index, list->length)) {
+        if(requires_realloc(list->length, list->capacity)) {
+            realloc_array_list(list);
+        }
+
+        list->length++;
+        shift_right_array(list, index);
+
+        void *insertion_position = calculate_array_position(list, index);
+        memmove(insertion_position, element, list->type_size);
+    }
+
+    free(element);
+}
+
+void *remove_array_list_element(array_list *list, int index) {
+    void *deleted_element_address = calculate_array_position(list, index);
+    void *address_content = malloc(sizeof(void *));
+
+    memmove(address_content, deleted_element_address, list->type_size);
+
+    shift_left_array(list, index);
+    list->length--;
+
+    free(address_content);
+    return address_content;
+}
+
+void *pop_array_list(array_list *list) {
+    if(list->length - 1 >= 0) {
+        return remove_array_list_element(list, list->length - 1);
+    }
+
+    return NULL;
+}
+
+void *remove_at_index_array_list(array_list *list, int index) {
+    if(list->length - 1 > 0 && is_valid_index(index, list->length)) {
+        return remove_array_list_element(list, index);
+    }
+
+    return NULL;
+}
+
+int find_element_at_array_list(array_list *list, void *element) {
+    int finded_element_index = -1;
+
+    for(int i = 0; i < list->length && finded_element_index == -1; i++) {
+        void *current_element_in_array = calculate_array_position(list, i);
+
+        if(memcmp(current_element_in_array, element, list->type_size) == 0) {
+            finded_element_index = i;
+        }
+    }
+
+    free(element);
+    return finded_element_index;
+}
+
+void *remove_first_instance_of_element(array_list *list, void *element) {
+    int finded_element_index = find_element_at_array_list(list, element);
+    int element_index = find_element_at_array_list(list, element);
+
+    if(finded_element_index != -1 && is_valid_index(element_index, list->length)) {
+        free(element);
+        return remove_at_index_array_list(list, element_index);
+    }
+
+    free(element);
+    return NULL;
+}
+
+void remove_all_instances_of_element(array_list *list, void *element) {
+    for(int i = 0; i < list->length; i++) {
+        void *element_current_address = calculate_array_position(list, i);
+
+        if(memcmp(element_current_address, element, list->type_size) == 0) {
+            remove_array_list_element(list, i);
+        }
+    }
+
+    free(element);
+}
+
+void keep_first_instance_of_element(array_list *list, void *element) {
+    int finded_first_instance_of_element = 0;
+
+    for(int i = 0; i < list->length; i++) {
+        void *element_current_address = calculate_array_position(list, i);
+
+        if(memcmp(element_current_address, element, list->type_size) == 0) {
+            if(!finded_first_instance_of_element) {
+                finded_first_instance_of_element = 1;
+            } else {
+                remove_at_index_array_list(list, i);
+                i--;
+            }
+        }
+    }
+
+    free(element);
+}
+
+void revert_array_list(array_list *list) {
+    void *i_address;
+    void *j_address;
+    void *temp = malloc(sizeof(void *));
+
+    const int middle_of_array_index = list->length / 2;
+
+    for(int i = 0, j = list->length - 1; i < middle_of_array_index; i++, j--) {
+        i_address = calculate_array_position(list, i);
+        j_address = calculate_array_position(list, j);
+        memmove(temp, i_address, list->type_size);
+        memmove(i_address, j_address, list->type_size);
+        memmove(j_address, temp, list->type_size);
+    }
+
+    free(temp);
+}
+
+void swap(void *a, void *b, size_t type_size) {
+    void *temp = malloc(sizeof(void));
+    memmove(temp, a, type_size);
+    memmove(a, b, type_size);
+    memmove(b, temp, type_size);
+
+    free(temp);
+    temp = NULL;
+}
+
+void q_sort(array_list *list, int left, int right) {
+    int i = left;
+    int j = right;
+    int middle = (i + j) / 2;
+
+    void *left_partition = calculate_array_position(list, i);
+    void *right_partition = calculate_array_position(list, j);;
+    void *pivot = calculate_array_position(list, middle);
+
+    while(i <= j) {
+        while(memcmp(left_partition, pivot, list->type_size) < 0 && i < right) {
+            i++;
+            left_partition = calculate_array_position(list, i);
+        }
+
+        while(memcmp(right_partition, pivot, list->type_size) > 0 && j > left) {
+            j--;
+            right_partition = calculate_array_position(list, j);;
+        }
+
+        if(i <= j) {
+            swap(left_partition, right_partition, list->type_size);
+            i++;
+            j--;
+        }
+    }
+
+    if(j > left) {
+        q_sort(list, left, j);
+    }
+
+    if(i < right) {
+        q_sort(list, i, right);
+    }
+}
+
+void quick_sort(array_list *list) {
+    q_sort(list, 0, list->length - 1);
+}
+
+void *get_element_at_index(array_list *list, int index) {
+    return calculate_array_position(list, index);
+}
+
+void set_array_position(array_list *list, int index, void *element) {
+    void *array_element = calculate_array_position(list, index);
+    if(array_element != NULL) {
+        memmove(array_element, element, list->type_size);
+    }
+
+    free(element);
+}
+
+void free_array(array_list *list) {
+    free(list->data);
+}

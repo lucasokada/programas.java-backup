@@ -1,0 +1,714 @@
+-Programação Orientada a Objetos X Programação Procedural:
+	Na POO, atributos e comportamentos estão contidos em um mesmo objeto (dado e funcionalidade andam juntos), enquanto que, na procedural, ocorre o contrário, sendo mais fácil modificar dados fora o escopo de um método por exemplo. Com isso, o acesso a dados fica descontrolado e imprevisível, tornando tarefas como depurar e debugar o código mais difíceis.
+	A POO resolve esse problema, integrando o dado e sua funcionalidade.
+
+	
+	P O O					Procedural
+	Métodos					Funções e Procedimentos
+	Instâncias de variáveis			Variáves
+	Mensagens				Chamadas a procedimentos e funções
+	Classes					Tipos de dados definidos pelo usuáio
+	Herança					XXX
+	Polimorfismo				XXX
+	
+	Além disso, o paradigma da orientação a objetos permite que várias equipes trabalhem em um mesmo projeto, já que garante um código com responsabilidades coesas e bem definidas.
+
+- Classes e Objetos
+	Uma classe é um elemento utilizado para representar um objetos. De forma mais informal, dizemos que a classe é uma "receita" de um objeto, armazenando caracteristicas e comportamentos desse objeto.
+	O objeto por sua vez é a instanciação de uma classe, ou seja, quando uma classe é instanciada, um objeto é construido. Esse, por sua vez é caracterizado por atributos e métodos.	
+
+	Exemplo: "Não é possível habitar a planta da casa, mas sim a casa". Nessa frase temos um bom exemplo de classe e objeto, onde a planta da casa seria a classe e a casa, o objeto. A planta da casa não é uma casa, mas sim uma especificação de casa. Sendo assim, não podemos fazer as operações básicas que envolvem uma casa (habita-la), pois ela não é um objeto. 
+	
+-Construtores:
+	Quando uma classe é instanciada, o operador new tem como retorno uma referência para o objeto criado. O construtor é uma rotina de inicialização que recebe parâmetros. Esses parâmetros são atributos da classe, que são automaticamente inicializados com o valor especificado utilizando o construtor.
+	Dependendo do construtor implementado, o usuário é obrigado a passar determinadas informações. Além disso, uma classe pode ter mais de um construtor, utilizando o mecanismo de sobrecarga 
+
+-static:
+	Indica que o atributo é da classe e não da instância. Ou seja, o atributo static é compartilhado por todos os objetos dessa classe. Sendo assim, se modificarmos esse atributo em um objeto, ele será alterado para todos os objetos da class
+
+-protected:
+	Modificador de acesso que fica entre o public e private. Nele, o atributo ou método fica público para os membros filhos daquela classe.
+
+-Herança:
+	A herança é uma ferramenta muito útil. Ela deve ser implementada quando dizemos que uma classe A é um tipo específico da classe B. Quando isso ocorre, diemos que a classe A deve herdar a classe B.
+	Sendo assim, a herança ocorre quando as classes são parecidas, tendo algumas especificações de uma para outra. Com o uso da herança, a classe que está herdando compartilha dos mesmos métodos e atributos da classe herdada, podendo ser implementados outros atributos ou métodos específicos. Além disso podemos alterar méodos já existentes na classe mãe utilizando o conceito de sobrescrita, que permite redefinir um comportamento da classe mãe.
+
+	Exemplo: supondo que temos uma classe Animal que contém métodos e atributos. Se fizermos uma classe Leão, essa classe irá herdar a classe Animal, pois o leão é um animal, podendo ter atributos e métodos específicos além dos herdados.
+	Com a herança temos varias vantagens no programa, como a reutilização de software, crescimento linear e não geométrico na complexidade, redução de if's, melhor manutenção e organização do código. Além disso, a herança nos proporciona o polimorfismo.
+	
+	-super: Comando que serve para subir na hierarquia das classes. Se, por exemplo, estivermos trabalhando em uma classe filha e utilizarmos super, estaremos nos referindo a algum método ou atributo da classe mãe. 
+	Exemplo: Considerando uma classe Funcionario que tem como atributos nome e salário e uma classe filha Diretor, se utilizarmos super(), estaremos nos referindo ao construtor que vem da classe mãe. Em outro caso hipotético, se tivéssemos super.nome, estariamos nos referindo ao atributo nome, que vem da classe mãe. Isso também serve para métodos. Se a classe Funcionário tiver um método bonusSalarial() e fizermos super.bonusSalarial() na classe Diretor, estaremos nos referindo ao método da classe Funcionário.
+	
+	obs: Uma classe pode ser mãe de várias outras classes, contudo pode ser filha de apenas uma classe(Em java não existe herança múltipla)
+
+	-Polimorfismo: polimorfismo significa "várias formas". Isso significa que pode haver várias formas de fazer uma mesma tarefa. Sendo assim, pode-se dizer que uma chamada de método pode ser executada de várias formas(polimorficamente), onde quem define a forma é o objeto que recebe a chamada. 
+	 Considerando que existe um objeto A que chama um método método() de um objeto B. Sendo assim, quem decide a forma de implementação é a classe B. Com isso, pode-se afirmar que a classe B é quem importa. Contudo, esse método da Classe B pode ser sobrescrito na classe A, seguindo a mesma forma de implementação.
+
+	Ex:
+	class Funcionario{
+	...
+	métodoX(int valor){....}
+	}
+
+	class Gerente extends Funcionario {
+	...
+	métodoX(int valor){xxxx}
+	}
+	
+	main(){
+	Funcionario gerente = new Gerente()
+	gerente.métodoX(valor);
+	}
+	
+		Quando o métodoX() é chamado na main, estaremos executando o método determinado pela classe Gerente, mesmo a variável sendo uma referência do tipo funcionário.
+
+Obs:	um objeto pode ser referenciado por um mesmo tipo ou um tipo mais genérico.
+	Um objeta herda métodos e atributos, mas não herda o construtor. O construtor é específico de cada classe.
+	Há um forte acoplamento entre a classe mãe e filha.	
+
+-Classes e Métodos Abstratos:
+	Ocorrem quando uma classe é um conceito de alguma coisa e não algo abstrato. Por exemplo, conta é um conceito, ondem existem diversos tipos de conta, como conta corrente e conta poupança, mas não um tipo conta concreto. Seguindo o mesmo raciocínio, considerando uma classe funcionário, essa também é um conceito e não algo concreto. Os tipos de funcionários podem ser Gerente, Editor ... que se encaixam no conceito de funcionário.
+	Sendo assim, as classes abstratas não podem ser instanciadas, servindo apenas como modeo para suas classes filhas. As classes derivadas dessa, são classes concretas, que deverão sobrescrever os métodos da classe mãe(Override)
+
+	O mesmo vale para métodos abstratos. Se por exemplo, existir um método que sempre muda de acordo com a classe filha, podemos concluir que não existe uma implementação padrão para esse método e por isso ele não será concreto, mas sim abstrato. Os métodos concretos estão presentes somente em classes concretas e não tem implementação, sendo que essa implementação é feita por seus filhos.
+
+-Interface: 
+	Importante conceito de programação que definem o que uma classe deve fazr e não como. Sendo assim, as interfaces utilizam de métodos abstratos em sua composição. Quando uma classe implementa uma interface há um contrato entre eles, onde, nesse contrato, a classe deve implementar todos os métodos presentes na interface. Além disso, assim como uma classe abstrata, a interface não pode ser instanciada 
+
+	obs: A interface pode ser vista como uma classe abstrata com todos seus métodos abstratos. Já que ela não pode ter nada concreto, ela não pode ter atributos
+
+				___________
+				| Herança |
+		________________|_________|_____________________
+		|						|
+	+++++++++++++++					|
+	| Reutilização|					++++++++++++++
+	|     de      |					|Polimorfismo|
+ 	|   Código    |					++++++++++++++
+	+++++++++++++++					|
+		|	++++++++++++			++++++++++++|		
+		|_______|Composição|			| Interface |
+	                ++++++++++++			+++++++++++++
+	
+	Se houver necessidade de reutilização de código e polimorfismo, o mais recomendado é a utilização de um herança. Contudo, se for necessário apenas o polimorfismo, é mais vantjoso utilizar interfaces. Agora, se for desejado apenas reutilização de código, o recomendado é utilizar composição.
+Sendo assim, na teoria é possível trabalhar sem herança.
+
+-Delegação:
+	Mecanismo para reutilização de códigos. A reutilização de códigos pode ser feita por duas maneiras: Herança(relacionamento do tipo "é um") ou delegação(relacionamento do tipo "tem um") 
+
+//----------------------------------------------------------------------------//
+
+-Pilha de execucao:
+	quando um método é chamado, o código a ser executado nesse método é colocado no topo da pilha. Se tivermos diversas chamadas de métodos, um dentro do outro, veremos o funcionamento da pilha de execução, onde o método do topo é executado.
+						|_____________|	
+	exemplo:				|   metodo2   |
+						|_____________|
+	main(){					|   metodo1   |
+		metodo1()			|_____________|
+	}					|    main     |
+						|_____________|
+	metodo1(){
+		metodo2()
+	}
+
+	metodo2() {
+		...	
+	}
+	
+	Nesse exemplo, o método2 será o primeiro a ser executado, pois está no topo da pilha. A seguir, o método1 e por fim a main.
+	Quando uma exceção é lançada no programa por alguma razão específica, é como se uma "bomba" fosse jogada na pilha de execução, após isso o compilador procura se algum dos metodos chamados sabe tratar a excessão. Para o mesmo exemplo acima, considerando que o método2() lance uma excessão qualquer, seria como se uma bomba fosse lançada na pilha. Após isso, o compilador verifica se o método tem alguma forma de resolver essa excessão, se não, o método2() é terminado, mesmo que imcompleto. Após isso, o método1() é verificado, se esse não tiver um tratamento para excessão, o método1() é terminado e chama-se a main(). Se a main() não tratar essa exceção, o método main é terminado e o compilador deixará um caminho da excessão entres os métodos, como se fosse o rastro de onde a bomba passou.
+
+|   *(bomba)	|	|		|	| 		|
+|______________	|	|		|	|		|
+|   método2()	|	|    *(bomba)	|	|		|		
+|______________	|	|_______________|	|		|
+|   método1()	|	|   método1()	|	|    *(bomba)	|
+|______________	|	|_______________|	|_______________|
+|     main()	|	|     main()	|	|     main()	|
+|_______________|	|_______________|	|_______________|
+
+-Tratamento de excessões:
+	Se houver algum bloco de código de risco, que pode lançar uma excessão, utilizamos o comando try{} que tentará executar o código que estará dentro de suas chaves. Se não for possível, o código passa pelo catch(), que irá receber essa excessão lançada. Exemplo:
+	
+	try {
+		int a = 20 / 0;
+	} catch(ArithmeticException ex) {
+		print("excessão aritmética");
+	}
+
+	O programa tentará executar o bloco de código dentro do try. Contudo, não existe divisão por zero, lançando uma excessão aritmética. Após isso, já que houve o lançamento de uma excessão, o programa pula para o catch, que recebe essa e faz o tratamento.
+
+	Caso a excessão não seja tratada, todo o fluxo de execução do programa será alterado, encerrando-o abruptamente
+
+-Lançamento de excessões:
+	Em determinadas situações é interessante o lançamento de excessões no programa. Para isso, utiliza-se o comando throw.
+	exemplo:
+		XException exception = new XException();
+		throw exception;
+
+	ou, de forma mais enxuta:
+		throw new XException();
+
+	 Toda linha de código após esse lançamento não será executada, pois, como dito anteriormente, as excessões mudam o fluxo de execução do programa.
+
+	-Hierarquia:
+
+			+++++++++++	
+			|Throwable|_________
+			+++++++++++	   |
+			     |		   |	
+			+++++++++++	+++++++
+			|Exception|	|Error|
+			+++++++++++	+++++++
+			     |
+			++++++++++++++++++
+		________|RuntimeException|______________________
+		|	++++++++++++++++++			|
+		|			|			|
+	ArithmeticException       NullPoiterException ...  MinhaException
+
+	Se quisermos fazer uma excessão customizada faremos a classe da excessão extendendo a classe RuntimeException;
+	Ex: class MyException extends RuntimeException {}
+	
+	A classe Error, que também extende Throwable não é utilizada pelos programadores, por isso temos pouco conhecimento de como ela funciona. Essa classe, é importante para quem programa a máquina virtual, pois essa é quem lançará um erro no código se algo grave acontecer.
+	No caso, se fizermos uma excessão personalizada, extendendo a classe Exception ao invés de RuntimeException como no caso anterior, devemos lançar a excessção na assinatura do método, sendo essa condição uma exigência do compilador.Isso ocorre, pois a classe Exception tem categoria "checked", portanto o compilador o uso do throw, enquanto que a outra classe tem categoria "unchecked" e o compilador não a verifica. Portanto, se herdarmos a classe RuntimeException, teremos uma excessão do tipo unchecked, diferente da classe Exception, que é checked, e portanto é obrigatório usar o throw na declaração do método.
+
+	Exemplo:
+	public void metodo1() throws MinhaExcessão {}
+
+	também pode ser feito com:
+
+	public void metodo1(){
+		...
+		try{
+		}catch(){
+		}
+		...
+	}	
+
+OBS: A diferença ocorre na compilação, na execução funcionam da mesma forma(bomba na pilha de execussão).
+
+	Para tratar uma excessão genérica, basta utilizar a classe Exception, pois todas as classes de Excessões derivam dela.
+Ex: try{...}catch(Exception){...};	
+
+	O bloco finally é um comando opcional, utilizado juntamente com o tratamento de excessões. Nesse bloco, o código presente será sempre executado, independente de ocorrer ou não a excessão.
+
+	Exemplo:
+	try {
+		...	
+		conexao.fecha();
+	} catch () {
+		...
+		conexao.fecha();
+	}
+
+	Esse código pode ser resumido por:
+
+	try {
+		...	
+	} catch () {
+		...
+	} finally {
+		conexao.fecha();
+	}
+
+
+	O bloco try precisa, necessariamente de um catch ou finally. Além disso podemos utilizar esse bolco com recursos, na forma try(...){}
+
+	Ex:
+	try(Conexao con = new Conexao()){}
+
+//----------------------------------------------------------------------------//
+
+	-Organização de pacotes:
+	Quando utilizamos os pacotes para deixar o projeto mais organizado, estaremos alterando também o nome das classes desse. Imagine que tenhamos um pacote model com a classe Conta e um pacote test com a classe TestConta. Como dito anteriormente, o uso de pacotes interfere no nome das classes, portanto, para poder utilizar a classe Conta em TestConta devemos especificar o pacote.
+	Exemplo:
+	
+	//dentro da classe teste
+	model.Conta conta = new model.Conta();	
+
+	Esse nome completo, composto pelo nome do pacote e da classe é chamado Full Qualified Name(FQN).
+
+	Já que java é difundida no mundo inteiro, existem muitos códigos escritos nessa linguagem. Imaginemos que fosse interessante utilizar uma classe de outro projeto, contudo, essa classe tem o mesmo nome de uma classe de nosso projeto. Já que em um mesmo pacote não podem haver elementos com o mesmo nome, por motivos de gerar confronto, uma alternativa seria utilizar outro pacote para hospedar essa classe externa. Sendo assim, foi feito o padrão de gerenciamento de pacotes, que utiliza também a forma de codificação web(com.país)
+
+organização:
+br -> com -> nomeEmpresa -> nomeProjeto -> pastasEspecíficas(model, test ...)
+br.com.nomeEmpresa.nomeProjeto. ...
+
+	Uma forma mais simples e legível de utilizar classes de outros pacotes é importá-las na classa atual, sendo agora permitido utilizar o nome simples da classe imprtada. Isso se faz com a sintaxe import classPath.
+	Exemplo:
+	
+	import br.com.project.model.Conta;
+
+	public static void main() {
+		Conta conta = new Conta;
+	}
+
+	A ordem de declarações em uma classe é:
+	1 - pacote da classe atual. (ex: package br.com.project.model.pacoteAtual)
+	2 - import de outras classes. (ex: import br.com.project.model.pacoteClasse.classe)
+	3 - estruturas da classe.
+
+	-Modificadores de Acesso:
+	Agora, com a presença de pacotes em nossos projetos, é possível dar uma visão mais detalhada sobre os modificadores de acesso.
+	
+	(menos restritivo para o mais restritivo)
+	
+	public:	Classe, método e atributos são visíveis em todo lugar, ou seja, dentro e fora do pacote.
+
+	protected: Classe, método e atributos visíveis apenas para os filhos, mesmo que estes estejam em outros pacotes, além de ser visível para o próprio pacote.
+
+	<<package private>>(default): Se não existe nenhum acesso de visibilidade para uma classe ou método, o utilizado por convenção é esse. Nesse modificador, classes, métodos e atributos são visíveis apenas dentro do pacote.
+
+	private: Classe, método e atributos visíveis apenas para a classe.
+
+
+	-Javadoc:
+	Documentação oficial do java, muito importante no compartilhamento do código de dev para dev. 
+	Para fazer um coméntario seguindo a documentação oficial java seguimos a sintaxe:
+	/**
+	*
+	*informacoes
+	*@author
+	*@version
+	*outros @s
+	*/
+
+	Além disso é possível gerar o javadoc do projeto, que transforma todas as classes em arquimos xml, facilitando a visualização e acessibilidade às classes do projeto por outros programadores. Importante salientar que apenas membros PÚBLICOS são contemplados no javadoc.
+
+	@author (usado na classe ou interface)
+	@version (usado na classe ou interface)
+	@param (usado no método e construtor)
+	@return (usado apenas no método)
+	@exception ou @throws (no método ou construtor)
+	@see
+	@since
+	@serial
+	@deprecated
+
+	Se quiséssemos passar todas as classes compiladas para outra equipe, passaríamos o projeto compilado, sem o código fonte, e o javadoc e juntariamos tudo em um arquivo .zip, javado de jar(java archive). 
+
+	-java.lang: É o único pacote java que não precisa ser importado para serusado
+
+	String: É uma classe, portanto, quando fazemos uma variável do tipo String, essa é uma referência para um objeto String. Contudo, não é necessário utilizar new para criar esse objeto. Essa sintaxe é chamada de "object literal", com o objetivo de facilitar a vida do programador.
+	uma string é IMUTÁVEL. Se quisermos alterar uma string, devemos inicializar uma nova string. Por isso, todo método da classe String retorna uma string, onde as alterações se refletem em outro objeto.
+	Já que a classe String é imutável, tem benefícios pensando em design e malefícios pensando em desempenho. Se quiséssemos por exemplo concatena cada palavra de um texto, daria muito trabalho concatenar todas as palavras com a classe String. Para resolver isso, podemos utilizar a classe StringBuilder, que é uma classe comum, ou seja, é mutável e ajuda na concatenação. Além disso, essa classe implementa a classe CharSequence, que faz com que alguns métodos da classe String saibam trabalhar com StringBuilder.
+
+	Ex: StringBuilder string = new StringBuilder("texto");
+	    CharSequence cs = new StringBuilder("texto2");
+
+	-System: classe pertencente ao pacote java.lang, portanto não precisa ser instanciada e tem acesso público
+
+	-out: atributo de Systen, público, do tipo referência e estática.
+
+	-println(): método público, não estático(chamado a partir da referência out), sobrecarga(várias versões do mesmo método). 
+
+	OBS: tipos primitivos não chamam métodos. Apenas referências.
+
+	Classe Object: Classe mãe que é extendida automaticamente por toda classe referêencia criada. Por trás dos panos, o compilador basicamente faz a implementação: public class Classe extends Object. Sendo assim, qualquer classe referência herda os métodos implementados em Object.
+
+	Obs: Qualquer objeto pode ser referenciado por Object, pois essa é a classe mais genérica. Pertence ao pacote java.lang
+	método toString é um dos métodos da classe Object. Esse método existe para ser SOBRESCRITO e tem como objetivo devolver informações sobre o estado do objeto. É útil para a depuração no desenvolvimento.
+	
+//----------------------------------------------------------------------------//
+java.util:
+
+	-Arrays: 
+	Estrutura de dados utilizada para armazenar dados de forma sequencial na memória. Quando um array é utilizado, é criao um objeto, sendo assim, a variável inicializada tem uma referência para o array, que está na memŕoria HEAP(memória de objetos)
+	sintaxe:
+		int[] array = new int[length];
+
+	Quando um array é criado, todos seus elementos são inicializados com os valores padrão de cada tipo.
+
+	É possível criar um array que guarde qualquer tipo de referência, utilizando uma declaração de array do tipo Objects (Object[] a = new Object[5];). Com isso, Podem ocorrer muitos problemas quanto a referência do tipo do dado apontado e torna-se importante a utilização de "type cast" (cast de referências), que transforma uma referência de um tipo mais genérico para mais específica.
+	Ex: ContaPoupanca cc = (ContaPoupanca) a[3];
+		Cast de uma referência Object para ContaPoupanca.
+ 
+
+	-String[] args: Todo método main tem como parâmetro esse array de Strings. Isso nada mais é que a possibilidade de passar parâmetros na execução do programa java, onde podemos fazer operações com esses parâmetros.
+	Ex: java br.com.bytebank.banco.test.TestArray lucas okada 2000
+		Nesse caso, estamos executando um programa java pelo terminal, onde os elementos lucas, okada e 2000 são passados como parâmetros e armazenados no string args.
+
+	A lingugem java já tem uma classe própria para manipulação de arrays, onde não é necessária a implementação direta desse. Essa classe se chama ArrayList. A utilização dessa classe pode ser feita de forma genérica, onde todo tipo de referência pode ser armazenado, ou pode ser passada uma restrição a ela, permitindo que apenas um tipo de referência seja armaazenada.
+	ArrayList lista = new ArrayList() //genérica
+	ArrayList<Tipo> lista = new ArrayList<Tipo>() //com restrição
+	
+	Com o uso da restrição o código fica mais seguro. O uso do símbolo <> é chamado Generics, ou seja, a classe utilizada é genérica, contudo ela pode ser tipificada.
+
+	-Equals:
+	Se tivermos dois objetos em memória que representam um mesmo objeto no mundo real, contudo com referências distintas. No caso, ao adicionar um dos objetos em uma lista e verificar se o segundo objeto existe na lista, isso deveria retornar true, pois as referências são diferentes mas representam um mesmo objeto.ex:
+
+	Conta conta1 = new Conta(22, 11);
+	Conta conta2 = new Conta(22, 11); //referências diferentes que representam mesmo objeto(mesmo objeto pois todos os atributos são iguais)
+	
+	list.add(conta1);
+	list.contains(conta2); 	//resulta false
+
+	Contudo, o retorno será false, pois são referências diferentes.
+	Por isso, utiliza-se o método equals(), implementado na classe Object. Ao fazer o Override deste método, implementa-se a regra de negócio utilizada para saber se um objeto será igual a outro.
+
+	-Linked Lists:
+	java.util.LinkedList. Muito parecido com ArrayList, contudo não utiliza um array "por baixo dos panos", mas sim uma lista ligada, que tem como característica objetos que referenciam o próximo objeto da lista por meio de um ponteiro.
+ex: 1->2->3->4->null
+	ponto negativo: Não tem acesso direto. Para acessar um elemento é necessário percorrer todos os anteriores a começar pelo primeiro
+
+	-Vector:
+	A classe Vector também implemena um array, contudo utiliza threadsafe, que permite que dois processos diferentes utilizem a mesma lista . Sendo assim, o Vector pode ser manipulado por várias pilhas de execução diferentes 
+
+				
+				++++++++++++++++++++++	
+				|java.util.collection|____java.util.Set 
+				|   <<interface>>    |	   <<interface>>
+				++++++++++++++++++++++		|
+				|		       java.util.HashSet
+				|
+			++++++++++++++++
+	  ______________|java.util.List|_____________________
+	  |		++++++++++++++++		     |
+          | 			     |         		     |	
++++++++++++++++++++++    +++++++++++++++++++++++     ++++++++++++++++++
+|java.util.ArrayList|    | java.util.LinkedList|     |java.util.Vector|
++++++++++++++++++++++	 +++++++++++++++++++++++     ++++++++++++++++++
+
+Em java, para cada tipo primitivo, existe uma classe que representa esse tipo no "mundo Object". Então quando temos por exemplo:
+
+int idade = 40;
+list numeros = new ArrayList();
+list.add(idade);
+
+Esse código não deveria funcionar, pois as Lists guardam apenas referências de objetos e o tipo primitivo int não é uma referência. Contudo, esse código funciona. Acontece que, de baixo dos panos, o java cria um objeto referente ao tipo primitivo utilizado, dessa maneira:
+
+int idade = 40;
+list numeros = new ArrayList();
+Integer idadeRef = idade;
+list.add(idadeRef);
+
+Essa transformação do primitivo para o objeto e vice-versa ocorre automaticamente e é chamada Autoboxing
+
+++++++++++++++++--Autoboxing--> +++++++++
+|tipo primitivo|		|Wrapper|
+++++++++++++++++ <--Unboxing----+++++++++
+
+classes do Integer:
+valueOf(int): tipo primitivo para objeto   -> autoboxing manual
+intValue(): ripo objeto para primitivo  -> unboxing manual
+valueOf(String): transforma de String para tipo objeto Integer
+parseInt(String): transforma de String para tipo primitivo int
+MAX_VALUE / MIN_VALUE: retorna maior e menor valor que um int pode representar
+
+Esse tipo objeto que representa algum tipo primitivo é chamado Wrapper class, que são classes que contém funcionalidades e encapsulam a variável de tipo primitivo
+
+primitivos:		Wrappers
+double(8bytes) 		java.lang.Double
+float(4bytes)		java.lang.Float
+long(8bytes)		java.lang.Long		
+int(4bytes)		java.lang.Integer
+short(2bytes)		java.lang.Short
+byte(1byte) 		java.lang.Byte
+char(2bytes)		java.lang.Character
+boolean			java.lang.Boolean
+			       |	
+			       |
+			++++++++++++++++++
+			|java.lang.Number|
+			++++++++++++++++++
+	-Sort:
+
+-list.sort(): Recebe como parâmetro um comparator, que definirá a regra de negócio da ordenação. 
+
+	Classe Collections:
+Antigamente, nas primeiras versões do java, não existia a função sort, portanto as ordenações eram feitas de forma diferente. Elas eram fetas pela classe Collections, que tinham muitos métodos estáticos(não OO) e portanto não eram vantajosos. Nessa classe existe um método de ordenação que necessita de uma ordem natural(Collections.sort()), que define uma ordem padrão quando não é passado o parâmetro. Quem encapsula a ordem natural é a classe que será ordenada(ex: Conta), por meio da implementação da interface Comparable<>, do método compareTo(). 
+-compareTo(): Define ordem natural
+
+No mundo Java existem duas interfaces para definir o critério de ordenação dos elementos de uma lista.
+	java.util.Comparator: o comparator é um parâmetro do método sort da lista e da classe Collections
+	java.util.Comparable: para definir a ordem natural dos elementos
+
+
+-Function Object: Nome dado a um objeto que encapsula apenas um método/função/procedimento
+
+-Classe anônima: Ocorre quando há a criação de uma classe dentro do própria classe atual. ex:
+
+Comparator<String> comp = new Comparator<String>() {
+
+  @Override
+  public int compare(String s1, String s2) {
+    return s1.compareTo(s2);
+  }
+};
+
+como é possível ver, tem uma sintae ruim e de difícil análise. Portanto é mais útil utilizar expressões lambdas.
+	
+//----------------------------------------------------------------------------//
+	java.io:
+
+Arquivo	------	 					        ------> Arquivo
+	     |entrada					  saida |
+Rede ------------------> aplicação(Desktop, Web, Mobile) ------------> Rede
+	     |						        |
+Teclado-------						        -----> Teclado
+
+	-arquivos:
+Para receber um arquivo como entrada, estamos utilizando no caso a Classe FileInputStream. Contudo, a manipulação deste arquivo é complexa por se tratar de bits e bytes, por isso utiliza-se a classe InputStreamReader, que recebe o arquivo aberto e transforma os bits em caracteres. Contudo, a manipulação, que agora é feita por um array de char ainda pode ser simplificada com a classe BufferedReader, que recebe como parâmetro algum stream e permite uma manipulação mais simplificada, como por exemplo a leitura de uma linha inteira.
+
+
+public static void main(String[] args) throws IOException {
+
+	 FileInputStream file = new FileInputStream("teste.txt");
+
+	InputStreamReader inputStreamReader = new InputStreamReader(file);//lê um input stream -> transforma bits e bytes em caracteres 
+
+	BufferedReader bufferedReader = new BufferedReader(inputStreamReader); //lê toda uma linha inteira -> manipulação de mais alto nível
+
+	String line = bufferedReader.readLine()
+	System.out.println(line);
+	bufferedReader.close(); //fecha os anteriores automaticamente
+}
+
+	Importante ressaltar que sempre que se pretende abrir um arquivo, deve-se ter um tratamento de excessão para se essa operação não for possível. Além disso, é sempre necessário fechar os leitores de arquivo ao final do programa.
+	É possível observar no programa que existe uma hierarquia quanto ao uso dessas classes de leitura de arquivos. Como podemos ver, O FileInputStream é administrado pelo InputStreamReader que é administrado pelo BufferedReader. Sendo assim, em uma execução de leitura, pedimos ao BufferedReader uma linha, que pede os caracteres para o InputStreamReader que pede ao FileInputStream os bytes, que lê os dados do arquivo. Esse padrão de funcionamento, onde uma classe decora as funcionalidades de outra classe e adicionando melhoramentos é chamado Decorator.
+	+++++++++++++					++++++++
+	|InputStream|  stream de bytes			|Reader|	stream de caracteres 
+	+++++++++++++					++++++++ <-------
+	      +						|    		|
+	      |			         	 ++++++++++++++++    +++++++++++++++++++	    
+     +++++++++++++++++				 |BufferedReader|    | InputStreamReader|
+     |FileInputStream|				 ++++++++++++++++    ++++++++++++++++++++
+     +++++++++++++++++
+
+Escrever em um arquivo:
+
+	++++++++++++++					++++++++
+	|OutputStream|					|Writer| <---------------	
+	++++++++++++++					++++++++		|
+	        +					   +			|
+		|					   |			|
+       ++++++++++++++++++			++++++++++++++++	++++++++++++++++++++
+       |FileOutputStream|			|BufferedWriter|	|OutputStreamWriter|
+       ++++++++++++++++++			++++++++++++++++	++++++++++++++++++++
+
+public class WriteFile {
+
+    public static void main(String[] args) throws IOException {
+	    //Fluxo de entrada com arquivo
+        FileOutputStream file = new FileOutputStream("/home/lucas/Desktop/programas-java/curso_alura/JavaIo/Entradas/src/teste.txt");
+
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(file);
+        BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter); //lê toda uma linha inteira
+        //manipulação de mais alto nível
+
+        bufferedWriter.write("Teste de escrita no arquivo");
+        bufferedWriter.newLine();
+
+        bufferedWriter.close(); //fecha os anteriores automaticamente
+    }
+}
+
+ é possível alterar a origem da leitura e o destino da escrita de forma fácil, pois java.io fornece classes abstratas genéricas tanto para leitura (InputStream e Reader) quanto para escrita (OutputStream e Writer). Com as classes abstratas não precisamos saber qual a implementação usada na execução do código.
+	Para escrever no console utilizamos: OutputStream os = System.out;
+
+Uma maneira mais simples de fazer a escrita em um arquivo é utilizando a classe FileWriter:
+	
+
+    public static void main(String[] args) throws IOException {
+        FileWriter fw = new FileWriter("/home/lucas/Desktop/programas-java/curso_alura/JavaIo/Entradas/src/teste2.txt");
+        BufferedWriter bw = new BufferedWriter(fw);
+
+        bw.write("Teste de escrita no arquivo");
+        bw.newLine();
+
+        bw.close(); //fecha os anteriores automaticamente
+    }
+}
+
+FileWriter é um Writer e não um OutputStream.
+
+Para ser mais específico, a classe FileWriter extende a classe OutputStreamWriter, que por sua vez extende a classe Writer. Então o FileWriter é um OutputStreamWriter e é um Writer
+Uma solução de mais alto nível ainda é a utilização de PrintStream ou PrintWriter, que funciona da mesma forma, mas são separados pois o java só incluiu os writers e readers na versão 1.1 .
+
+  public static void main(String[] args) throws IOException {
+        PrintStream ps = new PrintStream("/home/lucas/Desktop/programas-java/curso_alura/JavaIo/Entradas/src/teste2.txt");
+
+        ps.println("teste arqivo");
+        ps.println();
+        ps.println("fssgsdfg");
+
+        ps.close();
+    }
+}
+
+A leitura de um arquivo também pode ser feita com a classe Scanner, da seguinte forma: Scanner sc = new Scanner(new Line("arquivo.txt"));
+	
+-Encoding:
+
+	Em baixo nível, cada caractere é formado por um conjunto de bits determinados. Esses valores são determinados pela tabela ASCII(American Standart Code for Information Interchange), onde cada símbolo ocupa 1byte. Contudo, a tabela ASCII não representa todos os caracteres existentes no mundo. Sendo assim foram criados os Codepages, que são extensões do código ASCII. Para resolver problemas de compatibilidade quando há troca de dados de uma região para outra, foi criado o Unicode, formada por Codepoints, que contém todos os caracteres do mundo. Sendo assim, cada caractere tem um codepoint associado, após isso esse valor é transformado em uma sequência binária pelos Encodings, que dependem do sistema operacional, usados para gravar dados em algum local(arquivo, disco ...).
+
+-Serialização:
+	Consiste em transformar um objeto em um fluxo de bits e bytes. A situação contrária também pode ocorrer, chamada desserialização. Esse conceito surgiu para a comunicação de máquinas em rede, onde dados são enviados e recebidos, sendo que, dados no mundo java são objetos. Esse conceito também pode ser utilizado para gravar dados em uma memória ou banco de dados.
+
+-----------------		-----------------
+|heap		|-------------->|		|
+| OBJETO	|<--------------|       HD	|
+-----------------		-----------------
+   +	
+   |	
+++++++++
+|main()|
+++++++++
+
+Para o processo de serialização, utiliza-se java.io.ObjectOutputStream.
+Já para o de desserialização, utiliza=-se java.io.ObjectInputStream.
+
+Quando as classes Wrapper(String, Integer ...) são utilizadas, esses processos podem ser feito normalmente, pois essas já tem a interface Seralizable implementadas. Agora, quando o processo for feito em uma classe criada pelo programador(ex: Cliente), aí será necessário a implementação dessa interface.
+
+obs: Serializable é uma interface de marcação(não define nenhum método).
+
+É boa prática colocar o atributo estático serialVersionUID na classe quando queremos serializar um objeto.serialVersionUID é da classe (por isso estático) e define a versão ou identificação numérica da classe. Cada vez que alteramos algo incompatível na classe, devemos alterar o seu valor. Sempre quando serializamos o objeto, também será serializado o valor do serialVersionUID.
+
+	É possível utilizar conceitos de herança com serializable tambemé. Imagine uma classe mãe Conta e uma classe filha ContaCorrente. Se quisermos serializar um objeto ContaCorrente devemos implementar a interface Serializable na classe mãe. Além disso, se alguma dessas classes tiver como atributo outra classe, como por exemplo Cliente, essa também deverá ser serializada.
+	Contudo, se por exemplo quiséssemos que algum dos atributos não fizessem parte da serialização, basta colocar a palavra chave "transient" em sua declaração. ex: private transient Cliente c;
+
+//----------------------------------------------------------------------------//
+
+-Enums:
+	Servem para definir valores constantes. Quando definimos um enum estamos defiindo nada mais que uma classe, contudo essa classe tem algumas características especiais.
+	Uma enumeração NÃO PODE SER INSTANCIADA.
+	As constantes definidas na enum se tornam objetos automaticamente(são instanciadas). 
+	Cada constante tem um valor inteiro atribuído, que começa em 0, a partir da primeira constante e é incrementado para cada uma. Esses valores podem ser personalizados pelo programador a partir do construtor.
+
+exemplos de enum: status de pedidos, meses do ano, naipe de cartas...
+
+//----------------------------------------------------------------------------//
+
+-Anotações:
+	Definem algumas configurações no código java. Mais simples que arquivos xml. No caso a seguir, as anotações são provenientes da biblioteca hibernate, contudo existem diversas anotações dependendo do interpretador.
+
+-anotação para jvm(hibernate)
+@Entity:		classe representada em um banco de dados
+@Table:
+ 
+@Id:			define id
+@GeneratedValue:  	
+
+@Basic
+@Column
+
+-anotação para compilador:
+@Override
+
+//----------------------------------------------------------------------------//
+	Mais sobre java Collections
+-Diferenças entre interface List e classe ArrayList:
+classe ArrayList implementa a interface List. A ideia de usar List é encapsular quem estará lá dentro.
+No caso um ArrayList<Curso>. Além disso temos o polimorfismo, ou seja, o código funcionaria para qualquer tipo de 
+lista e não somente para ArrayList<>
+
+ex: private List<Classe> = new ArrayList<Classe>(); 
+
+obs: Quanto menos comprometimento em como um objeto faz determinada atividade, melhor, pois resulta em um sistema de baixo acoplamento(utilizações mais genéricas que referenciam objetos mais específicos).
+
+Se quisessemos adicionar algum elemento em uma List, teríamos várias formas de fazê-lo:
+	aulas.add();
+	imaginando que temos uama classe que tem como atributo uma lista:
+	variavel.getList.add();
+
+Contudo esses métodos não são seguros, pois fornecem baixo encapsulamento, ou seja, o usuário tem acesso direto aos atributos para realizar essas operações e isso é errado. Sendo assim o modo mais seguro de fazer é:
+	No método getList:
+
+	public List<Object> getList() {
+        return Collections.unmodifiableList(this.list);
+    	}
+
+	Com o unmodifiableList, retornamos uma cópia da lista passada como parâmetro que pode ser apenas lida. Ou seja, não seria possível realizar operações em lista utilizando esse método, tornando o exemplo acima inviável.(Apenas operações de adicionar e remover da lista são barradas)
+	Se quiséssemos transformar essa lista imutável para uma lista mutável, fariamos uma nova lista com ArrayList que recebece a lista imutável:
+
+	List listaImutavel;
+	List listaMutavel = new ArrayList<>(listaImutavel);
+
+
+-LinkedList x ArrayList:
+	Quanto a implementações e métodos, são muito parecidas. A diferença maior é em questão de performace. A ArrayList, internamente utiliza um array, sendo assim teremos rápidas inserções no final e acessos na lista, contudo, se  precisarmos utilizar inserções e deleções no meio ou começo da lista, teremos uma baixa performace. Já a LinkedList utiliza uma lista encadeada internamente, portanto, a inserção e remoção no começo ou meio da lista torna-se mais rápida, enquanto que inserção no final e acessibilidade tem baixa performace.
+
+
+- Collection Set:
+	Set é uma interface que é implementada por alguns tipos de estruturas de dados. Essa collection implemeta métodos muito parecidos com das Lists, como add, remove, contains .... 
+	A collection Set, diferente das vistas até agora, não tem ordem bem definida para os dados, ou seja, os dados não são apresentados na ordem que são inseridos, por isso, não possui métodos de acessos à posições. 
+	Outra diferença desse conjunto é que ele não aceita elementos repetidos, que pode ser interessante em vários casos. Contudo, a grande vantagem é a performace em casos importantes de uso, como métodos de busca. Os métodos remove() e contains() por exemplo, são muito mais rápidos com Sets. Sendo assim, para situações com muitos dados e muitas operações de busca e remoção a utilização dos sets é a mais viável.
+	Uma característica importante dessa collection é que se quisermos comparar dois objetos, devemos implementar os métodos equals() e hashSet(), pois essa, utiliza uma tabela de espalhamento para determinar se um objeto é igual a outro.
+
+			+++++++++++++++++++++++
+			|Collection<interface>|
+	  ____________>	+++++++++++++++++++++++<___________
+	  |		  |		   |		   |				
+	+++++		++++++		+++++++		+++++++
+	|Set|		|List|		|Queue|		|Deque|		<<interfaces>>
+	+++++		++++++		+++++++		+++++++
+
+obs: As collections possuem métodos muito parecidos pois todas elas implementam a interface Collection.
+obs: É possível utilizar diversas Collections ao mesmo tempo, explorando as vantagens de cada uma:
+	Collection<T> teste = new HashSet<T>();
+	List<T> testeList = new ArrayList<T>(teste);
+obs: Quando estamos usando o método .contains() de List ele utiliza apenas o .equals().
+
+-Tipos de Set:
+	HashSet: Não guarda a ordem de inserção dos elementos.
+	LinkedHashSet: Guarda a ordem de inserção dos elementos.
+	TreeSet: Utiliza uma estrututra de dados de árvore rubro-negra(muito rápida). Guarda os objetos na ordem natural.
+
+obs: Todos os set tem um método chamado iterator(), que antigamente no java era usado para ler todos os elementos do conjunto. Além disso, independente do set utilizado a ordem não é guardada, portanto métodos como get(índice) não existem. Outra característica que vale para todos os Sets é que não admitem valores repetidos.
+	ex:
+	Iterator<Aluno> iterador =  javaCollections.getAlunos().iterator(); 
+        while(iterador.hasNext()) {
+            Aluno proximo = iterador.next();
+            System.out.println(proximo);
+        }
+
+-List x Set:
+List é uma sequência e aceita elementos duplicados. Set não aceita duplicados e não define ordem.
+
+-Interface Maps: 
+	A interface Map mapeia valores para chaves, ou seja, através da chave conseguimos acessar o valor. Ela funciona da seguinte maneira, mapeia valores para chaves, e através da chave conseguimos acessar o valor correspondente. Por isso ela não pode ser repetida, ao contrário do valor, que podem existir iguais. 
+	Se uma chave for repetida, a antiga permanece, porém, o valor é sobrescrito pelo novo valor contido na chave passada, sendo o antigo valor "esquecido" pelo Map.
+
+	Assim como o HashSet, o HashMap não mantém a ordem de inserção dos seus elementos, contudo, o LinkedHashMap continua nos dando a performance de um HashMap, mas com acesso previsível e ordenado, seguindo a inserção dos seus elementos.
+
+-------------------------------------------------------------------------------
+
+-Expressoes Lambda;
+	As expressões lambda podem ser utilizadas apenas com INTERFACES FUNCIONAIS, ou seja, interfaces com um único método abstrato. Além desse método ela pode ter outros métodos, contanto que sejam default ou 'static'. Essa estrutura é fundamental, pois assim o compilador sabe exatamente que o corpo da expressão lambda que escrevemos é a implementação de seu único método abstrato.
+
+--------------------------------------------------------------------------------
+
+-Testes:
+	-testes manuais:
+	1- pensar em um cenário
+	2- executar uma ação
+	3- verifica saida [
+
+JUnity: framework de testes automatizados
+
+vantagens:
+	-Um teste de unidade executa muito rápido. Veja que ele gasta apenas alguns milissegundos para ser executado. Imagine o tempo que um humano levaria.
+	-Um humano pode eventualmente executar um teste incorreto (montar o cenário ou validar a saída errada, por exemplo). A máquina nunca fará isso. A partir do momento que você escreveu o teste, ela sempre vai executar o mesmo teste.
+
+Dependendo o problema, fica impossivel testar todas as possibilidades possíveis, por isso é necessário se atentar quais são as situações que realmente importam.Por exemplo, teste em ordem crescente, decrescente, para apenas um elemento, sem elementos e assim por diante. Sendo assim, torna-se importante também não realizar testes repetidos, que podem testar lances em ordem crescente por exemplo. No caso, esses testes repetidos são chamados de CLASSE DE EQUIVALÊNCIA(testes similares). A regra é escrever um teste por classe de equivalência
+
+//----------------------------------------------------------------------------//
+
+herança vs composição:
+	São dois mecanismos para reaproveitamento funcionalidades.
+	Os benefícios e problemas da herança são:
+		+captura o que é comum e isola o que é diferente
+		-fraco encapsulamento e forte acoplamento entre classes e subclasses
+
+	Os benefícios e problemas da composição são:
+		+comportamento pode ser escolhido em tempo de execução
+		+objetos são acessados somente através de suas interfaces
+		+menor dependência de implementações e cada classe responsável por apenas uma tarefa
+		+bom encapsulamento
+		-software muito dinâmico e parametrizado é mais difício de entender
+
+	Sendo assim, de forma geral é sempre mais preferível utilizar coposição a herança. Contudo pode-se definir regras de quando o uso da herança pode ser utilizado de forma que não acarrete problemas.
+	Utiliza-se herança quando:
+		-instância de uma classe filha não precisa tornar-se objeto de outra classe   
+		-relacionamento "É um" e não "Tem um"

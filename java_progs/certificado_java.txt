@@ -1,0 +1,839 @@
+-Escopo de variáveis:
++++++++++++++++++++++
+	-variáveis locais: variáveis definidas dentro de um método ou construtor. Existe e pode ser acessada somente dentro do bloco que foi definida.
+	As variáveis locais DEVEM SER INICIALIZADAS.
+		ex(String nome) {
+			for() {
+				int i = 0;
+			}
+		}
+	por exemplo, a variável i existe somente dentro do for, assim como a variável nome só pode ser acessada dentro do método ex().
+
+	-variável de instância: variáveis definidas dentro da classe. Existem e podem ser acessadas em qualquer local da classe, exeto em métodos ESTÁTICOS
+		public class Classe {
+			private int i = 1;
+		}
+
+	-variáveis estáticas: pode ser acessada através de uma instância e é única DA CLASSE, ou seja, todos os objetos criados compartilham da mesma variável:
+		public class Classe {
+			private static int i = 1;
+
+			public static void metodo() {
+				Classe c = new Classe();
+				c.i; //acesso através de uma instância
+			} 
+		}
+
+	*variáveis no mesmo escopo não podem ter o mesmo nome, independente dos tipos.
+		variável local -> variável membro (ok)
+		variável local -> variável de instância (ok)
+		variável local -> variávle local (ERRADO)
+		variável membro -> variável de instância (ERRADO)		
+		
+
+	*shadowing: ocorre quando a variável de instância é escondida por uma variável local. Sendo assim, com esse recurso acessamos a variável local.
+	**obs: variáveis locais podem ser acessadas diretamente sem a necessidade de uma instância em MÉTODOS ESTÁTICOS.
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+-Estrutura das classes:
++++++++++++++++++++++++
+	1- pacote: Pacotes servem para separar e organizar as diversas classes que temos em nossos sistemas. Todas as classes pertencem a um pacote, sendo que, caso o pacote não seja explicitamente declarado, a classe fará parte do que chamamos de pacote padrão, ou default package. Todas as classes no default package se enxergam e podem ser utilizadas entre si. Classes no pacote default não podem ser importadas para uso em outros pacotes:
+
+	2- imports;
+
+	3- classes: Uma classe é a forma no Java onde definimos os atributos e comportamentos de um objeto. 
+
+	4- interfaces e enums;
+	comentários podem ser colocados em qualquer local 
+		// comentário
+		/* comentário */
+		/** comentário javadoc */
+
+	*classes, variáveis, construtores e outros métodos podem ter o mesmo nome.
+
+-Estrutura das interfaces:
+++++++++++++++++++++++++++
+	Por padrão, quando uma variável é declarada em uma interface, essa será PÚBLICA, ESTÁTICA E CONSTANTE. 
+	Já os métodos declarados em interfaces, serão por padrão, PÚBLICOS e ABSTRATOS
+	
+		Interface A {	// public Interface A{} (ERRADO)
+			int TAMANHO = 5;				//public static final TAMANHO = 5;
+			void metodo(String nome, int idade);		//public abstract void metodo(String nome, int idade);
+		}
+	
+	**variáveis estáticas não podem ter seus valores e referências modificadas.  
+
+
+-Para um programa java poder ser executado ele deve ter um método main, que deve ser PÚBLIC e ESTÁTICO.
+-deve ter parâmetro do tipo (String[] args);
+
+     ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     |	+++++++++++++++++++				    					|
+     |	|Javac(compilador)|				    					|
+     |	+++++++++++++++++++    					 JDK(java development kit)   	|
+     |							    					|
+     |		+++++++++++++++++++++++++++++++++++++++++++					|
+     |		|	Java Runtime Environment(executar)|					|	
+     |		|		(JRE)			  |					|
+     |		|+++++++++++++++++			  |					|
+     |		||Virtual Machine|			  |					|
+     |		|+++++++++++++++++		 	  |					|
+     |		+++++++++++++++++++++++++++++++++++++++++++					|
+     ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+**classes dentro do mesmo pacote podem ou não ser importadas 
+**para que classes de outros pacotes possam ser importadas, é necessário que a classe importada seja pública.
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+-variáveis:
++++++++++++
+	Dizemos que java é uma linguagem tipada, ou seja, os tipos das variáveis são explícitos e são formados pelo tipo e nome da variável.
+	Variáveis locais NÃO TEM VALOR PADRÃO e portanto DEVEM SER INICIALIZADAS.
+	O compilador só compila se a variável for inicializada por qualquer caminho.
+		int idade;
+		if(args.length > 0) {
+			idade = 15;
+		}else {
+			System.out.println("outro caminho");
+		}
+		
+		NÃO COMPILA
+		
+	
+	Já as variáveis membro tem valor padrão definido e portanto, NÃO PRECISAM SER INICIALIZADAS. O valor padrão de tipos numéricos(int, double, float, long...) é sempre ZERO(no caso, o tipo char tem um valor numérico, que também começa em zero por padrão). Já no caso do boolean, o valor padrão é FALSE. Nas referências, o valor padrão é NULL;	
+	
+	Os tipos primitivos são:
+		byte,short,char,int,long,float,double,boolean. Importante salientar que o boolean é a única variável primitiva não numérica e além disso, float e double são tipos com ponto flutuante. Já o restante são tipos inteiros. 
+		Não existe signed e unsigned. Ou seja, todas podem ter valores positivos ou negativos.
+		
+	obs:	int i = 0435; -> int começando com 0 quer dizer que o número será representado na base octal.
+	    	int i = 0b4;  -> representa o número 4 em binário.	
+	    	int i = 0xFF; -> hexadecimal
+	    	int i = 0xF_F -> hexadecimal com separador
+	    	int i = 0b45_345-> separador para melhor representação apenas no número representado
+	
+	obs:	double i = 4.7d-> indica que é um double.  
+		double i = 3.1E2-> notação científica de 3,1 . 10²;
+		
+	obs:	float i = 4.2f-> indica que é um float.
+		float i = 4.3e5 -> notação científica 4.3 x 10⁵;
+		
+	obs:	para nuemros grandes podemos colocar _ para melhor represenmtação
+		long i = 12_342_352l;
+	
+	**Palavras chave em java não tem palavras maiúsculas. ex: instanceOf
+	
+-Diferenças entre Variáveis:
+++++++++++++++++++++++++++++
+	Em variáveis primitivas, quando fazemos, por exemplo int a = 3; int b = a;, as variáveis a e b possuem o mesmo valor, contudo, não possuem a mesma referência, portanto, se modificarmos uma a outra ficará intacta. Ou seja, nesse caso o que acontece é a CÓPIA do valor de um tipo primitivo para o outro.
+	No caso de variáveis de referência, a variável é um ponteiro que aponta para o objeto. Sendo assim, se as duas variáveis apontam para o mesmo objecto, caso uma modificação seja feita em uma delas, o valor será alterado na outra também. Nesse caso, é criado uma nova referência para o mesmo objeto.
+	
+
+-Acesso a variáveis membro(objetos, atributos, variáveis de instância ou campos) pode ser feito de maneira normal, apenas com o nome do elemento ou com o uso da palavra chave THIS, que se refere apenas aos elementos da classe(acesso explícito).
+
+
+-Ciclo de vida de um objeto:
+	um objeto é criado quando utiliza-se a palavra chave NEW, chamando seu CONSTRUTOR. 
+		ex: Carro carro = new Carro; -> nesse caso um objeto do tipo carro é criado e a variável carro aponta/referencia esse objeto.
+	Para que umm objeto seja acessível, é necessário que alguma variável referencie o objeto. Se o objeto existir, mas não tiver nenhuma referência a ele, esse torna-se inacessível(sem referências diretas ou indiretas a ele). Sendo assim, o objeto pode deixar de existir a QUALQUER MOMENTO APÓS TER SE TORNADO INACESSÍVEL, sendo coletado pelo GARBAGE COLLECTOR. Por isso, não é possível saber quantos objetos foram garbage coletados
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-Operadores:
+++++++++++++
+	Em uma declaração de variável podemos colocar valores menos abrangentes em tipos mais abrangentes:
+		byte->short->int->long
+		float->double	
+	
+	-abrangente para +abrangente -> COMPILA -> cuidado com a perda de precisão do número.
+	+abrangente para -abrangente -> NÃO COMPILA	
+
+	*operador de atribuição(=): copia a referência.
+
+	*operadores aritméticos: +, -, *, /, %(resto da divisão)  -> divisão por zero com int não existe, com pontos flutuantes sim.
+
+	*operadores de comparação: ==, >, <, >=, <=. (ignora os tipos, desde que tratem os mesmos parâmetros(números). 1 == 1.0; -> true) Retorna true ou false.
+
+	*operadores lógicos: &&(and), ||(or), ^(exclusive or), !(not)	
+ex: (1==1 && 2==2) = true : executa tudo, pois para que seja verdadeiro, as duas condições devem ser verdadeiras.
+		    (1==1 || 2 != 2) = true: executa a primeira parcela, já que no caso, essa é verdadeira, não é necessário verificar a outra, pois para que seja verdadeiro, basta que apenas uma das condições seja verdadeira.
+OBS: short circuit-> executa apenas um dos lados (&&, ||).
+
+ex: if(c != null & c.getPreco() > 100000) gera um NullPointerException, por estarmos usando o operador &, a segunda parte da expressão (c.getPreco() > 10000) será avaliada, causando uma NullPointerException na chamada do método getPreco() caso c seja null
+
+	*operadiores de incremento e decremento: ++, --
+ex: i++ (pós-incremento), devolve o número e depois incrementa um
+    i--
+	i = 1
+	printf(i++) => printa 1
+
+ex: ++i (pré-incremento), primeiro incrementa e depois devolve o valor
+    --i
+	i=1
+	printf(++i) => printa 2
+
+	+= (i += 1 ==> i = i + 1)
+	-= (i -= 1 ==> i = i - 1)
+	*= ...
+	/= ...
+	%= ...
+	
+	-operador ternário: valor = (cobndição) ? 100 : 0;  ?(recebe), :(senão);ex: int result = (i == 5) ? 400 : -1;
+
+	-operador de referência: . é o operador de referência.
+ex: int i = array.length;
+
+	-operador de concatenação: + em Strings.
+ex: String nome = "lucas" + "okada";
+
+
+-Casting:
+ +++++++ 
+	O casting é a maneira que usamos para moldar uma variável de um tipo em outro. Nós estamos avisando o compilador que sabemos da possibilidade de perda de precisão ou truncamento, mas nós realmente queremos fazer isso.
+ex: double d = 4.65;
+    int i = (int) d; //cast de int
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-Igualdade entre objetos:
++++++++++++++++++++++++++
+
+	Quando comparamos um objeto com outro com uso do operador "==", verificando se as variáveis apontam para o mesmo objeto e não comparando os conteúdos dos objetos.
+Ex: 
+	Obj a = new Obj();
+	Obj b = new Obj();
+	boolean igual = a == b; //igual = false, pois as referências das variáveis a e b são diferentes.
+	
+	Sendo assim, quando for preciso realizar comparação entre objetos, utiliza-se o método EQUALS. No caso das Strings, quando um objeto é criado sem o uso de new, apenas com as aspas, essa forma(==) pode ser utilizada, pois o valor é colocado no pool e a referência é reaproveitada para possíveis variáveis que tenham aquele mesmo valor atribuído.
+	-Para as Strings:
+	-----------------
+		Quando concatenamos literais, a String resultante também será colocada no pool. EX:
+			String ab = "a" + "b";
+			System.out.println("ab" == ab); // true
+		
+		Se algum dos objetos não for um literal, o resultado será um novo objeto, que não estará no pool:
+			String a = "a";
+			String ab = a + "b"; //usando uma referência e um literal
+			System.out.println("ab" == ab); // false
+		
+		 Strings são imutáveis, e que cada método chamado em uma String retorna uma nova String, sem alterar o conteúdo do objeto original. Esses objetos resultantes de retornos de métodos não são buscados no pool, são novos objetos:
+			String str = "um texto qualquer";
+			String txt1 = "texto";
+			String txt2 = str.substring(3, 8); //cria uma nova string
+			System.out.println(txt1 == txt2); // false
+			System.out.println(txt1.equals(str.substring(3, 8))); // true(utilização do método equals)
+		
+		Se o retorno do método for exatamente o conteúdo atual do objeto, nenhum objeto novo é criado:
+			String str = "HELLO WORLD";
+			String upper = str.toUpperCase();          // já está maiúscula
+			String subs = str.substring(0,11);         // string completa
+			System.out.println(str == upper);          // true
+			System.out.println(str == subs);           // true
+			System.out.println(str == str.toString()); // true
+
+	Para comparar os objetos de uma outra maneira, que não através da referência, podemos utilizar o método equals.
+	
+
+-if/else:
+---------
+	A maneira mais simples de controlar o fluxo de execução é definir que um determinado trecho de código deve ser executado quando uma condição for verdadeira. A condição de um if sempre tem que ser um valor booleano
+
+	
+-switch:
+--------
+	Ele permite testar vários casos de uma maneira diferente do if/else. O argumento do switch dever ser uma variável compatível com o tipo primitivo int, um ::wrapper:: de um tipo menor que Integer, uma String ou um enum. Em cada case, só podemos usar como valor um literal, uma variável final atribuída com valor literal, ou expressões envolvendo os dois. Nem mesmo null é permitido:			
+			
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-Arrays:
+++++++++
+	declaração:
+		int[] a = new int[5];
+		int[] a = new int[]{0,2,3,4,5,6};
+		
+	Arrays são objetos que armazenam referências à posições de memória, que por sua vez contêm valores, sejam eles ou primitivos, ou complexos (objetos). O array de primitivos NÃO ACEITA CAST, diferente do array de referências, por causa do polimorfismo.
+	Um array pode ter mais que uma dimensão, basta adicionar um par de conchetes para cada dimensão desejada(int[][] tabela = new int[2][4];), essa forma é conhecida como array de array.
+	
+	int[][] arr = new array[2][];
+	arr[0] = new int[20];
+	arr[1] = new int[10];
+	
+	Outra forma de utilizar arrays é utilizar a classe ArrayList, que implementa um array internamente e tem como vantagem o aumento "dinâmico" de memória caso necessário e tem vários métodos já implementados.
+	Se, por exemplo quiséssemos transformar um ArrayList em um array, seria utilizado o método toArray(), que retorna sempre um array de Object.
+		Object[] objetos = nomes.toArray();
+		String[] nomesArray = nomes.toArray(new String[nomes.size()]); // Essa é uma forma de transformar para array do tipo certo
+		String[] nomesArray2 = nomesArray(new String[0]); //Outra forma. o ArrayList percebe que o tamanho é muito pequeno e cria um novo array 										com o tipo e tamanhos já certos.
+	
+	Caso seja necessário percorrer o ArrayList, é possível utilizar o método iterator, que retorna um Iterator<>, que é uma classe que sabe percorrer objetos dessa classe. Ou, pode ser percorrido pelo for.
+		Iterator<String> it = nomes.iterator();
+		while(it.hasNext) { //enquanto existir próximo, fazer:
+			String atual = it.next(); //retorna o elemento atual
+			it.remove();//remove elemento atual. Não recebe parâmetros.
+		}
+	
+	
+	Para melhor funcionamento dos métodos do ArrayList é necessário sobrescrever o método equals(). (equals deve receber um Object como parâmetro.
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-Laços de repetição:
+++++++++++++++++++++
+	Outra maneira de controlar o fluxo de execução de um programa é definir que um determinado trecho de código deve executar várias vezes, como uma repetição ou um laço.
+
+	-while:		(while(condição) {})
+	#######
+		-A condição deve ser um booleano
+		-Pode entrar em LOOP INFINITO;
+		-primeiro VERIFICA CONDIÇÃO;
+		-O compilador é capaz de verificar se a condição colocada será um loop infinito. Qunado isso ocorre, o código não compila(variáveis constantes(final)).
+		
+	-for:			(for(inicializa variável; condição; incremento/decremento))
+	######
+		-Após a inicialçização da variável, a condição é testada, caso seja falsa o bloco não é executado.
+		-As três partes são opcionais. (for(; ; ))
+		-É possível inicializar mais que uma variável no for, desde que sejam do mesmo tipo. (for(i=0, j= 10; i < 10; i++, j--)) //a condição deve ser única.
+		
+	-do-while:
+	##########
+		-condição é testada após o corpo do loop é executado pelo menos uma vez.
+		-A condição do do .. while só é verificada no final de cada iteração e não no começo.
+
+
+No caso do while e do while, ambos são muito similares, sendo a principal diferença o fato do do .. while ter a condição testada somente após executar o código de dentro do ::loop:: pelo menos uma vez.
+
+Apesar de ser mais complexo, o for simples é mais poderoso que o enhanced for. Com o enhanced for, não podemos:
+-Percorrer mais de uma coleção ao mesmo tempo;
+-Remover os elementos da coleção;
+-Inicializar um array.
+Caso desejemos fazer uma iteração de leitura, por todos os elementos da coleção, aí sim o enhanced for é a melhor opção.
+
+optamos por usar for quando sabemos a quantidade de vezes que queremos que o laço seja executado. Usamos o while ou do .. while quando não sabemos a quantidade de vezes em que o laço será executado, mas sabemos uma condição.
+
+	-break e continue:
+	
+		Em qualquer estrutura de laço podemos aplicar os controladores break e continue. O break serve para parar o laço totalmente. Já o continue interrompe apenas a iteração atual.
+		Podemos adicionar labels(rótulos) a algumas estruturas de código, e usá-los posteriormente para referenciarmos essas estruturas. Para declarar um label usamos um nome qualquer (mesma regra de nomes de variáveis etc.) seguido de dois pontos (:).
+//------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+-Métodos e Encapsulamento:
+++++++++++++++++++++++++++
+
+	-Métodos:
+	#########
+		Formado por ASSINATURA(modificadores(opcional), tipo de retorno, nome, argumentos, throws(opcional)) e CORPO.
+		Temos que saber que nossos parâmetros também estão sujeitos à promoção de primitivos e ao polimorfismo.Por exemplo, método espera um double. Mas se chamarmos passando um int, um float ou qualquer outro tipo compatível, este será promovido a double e a chamada funciona:
+
+		-Não podemos ter nenhum código que seria executado após um retorno:
+		-Todo método que possui um tipo de retorno definido (diferente de void), deve retornar algo ou jogar uma Exception.
+		
+	-static:
+	--------
+		O modificador estático diz que determinado atributo ou método pertence à classe, e não a cada objeto. Com isso, você não precisa de uma instância para acessar o atributo, basta o nome da classe.
+		Um método estático é um método da classe, podendo ser chamado sem uma instância. 
+		
+		-Não podemos usar um método/atributo de instância de dentro de um método estático:
+		-Um detalhe importante é que membros estáticos podem ser acessados através de instâncias da classe (além do acesso direto pelo nome da classe).
+		-Caso uma classe possua um método estático, ela não pode possuir outro método não estático com assinatura que a sobrescreveria (mesmo que em classe mãe/filha):
+		
+		-Caso o tipo referenciado de uma variável seja A em tempo de compilação, o método será o da classe A. Se for referenciado como B, será o método da classe B:
+			A a= new A();
+			a.metodo(); // a
+
+			B b= new B();
+			b.metodo(); // b
+
+			A a2 = b;
+			a2.metodo(); // a
+			
+	-Sobrecarga:
+	############
+		-Mesmos métodos que recebem parâmetros diferentes, seja em quantidade ou em tipos.
+		-O Java decide qual das assinaturas de método sobrecarregado (overloaded) será utilizada em tempo de compilação.
+		-Métodos sobrecarregados podem ter ou não um retorno diferente e uma visibilidade diferente. Mas eles não podem ter exatamente os mesmos tipos e quantidade de parâmetros. Nesse caso, seria uma sobrescrita de método.
+		-No caso de sobrecarga com tipos que possuem polimorfismo, como em Object ou String, o compilador sempre invoca o método com o tipo mais específico
+	
+	-Construtores:
+	###############
+		-Quando não escrevemos um construtor na nossa classe, o compilador nos dá um construtor padrão. Esse construtor, chamado de default não recebe argumentos, tem a mesma visibilidade da classe e tem a chamada a super().
+		-Caso você adicione um construtor qualquer, o construtor default deixa de existir.
+		-Construtores também podem ser sobrecarregados. Temos que tomar cuidado com sobrecarga da mesma maneira que tomamos cuidado com sobrecarga de métodos: os construtores invocados seguem as mesmas regras que as de métodos.
+		-A instrução this do construtor deve ser sempre a primeira dentro do construtor:
+
+
+-Modificadores de Acesso:
+++++++++++++++++++++++++++
+	Os modificadores de acesso, ou modificadores de visibilidade, servem para definir quais partes de cada classe (ou se uma classe inteira) estão visíveis para serem utilizadas por outras classes do sistema. Só é permitido usar um único modificador de acesso por vez: public, protected, Nenhum modificador(chamado de default), private.
+	
+	-public:
+	########
+		O modificador public é o menos restritivo de todos. Classes, interfaces e membros marcados com esse modificador podem ser acessados de QUALQUER COMPONENTE, em qualquer pacote
+
+	-protected:
+	###########
+		Membros definidos com o modificador protected podem ser acessados por classes e interfaces no MESMO PACOTE, e por qualquer classe que ESTENDA AQUELA onde o membro foi definido, independente do pacote.
+	
+	-default:
+	#########
+		Se não definirmos explicitamente qual o modificador de acesso, podemos dizer que aquele membro está usando o modificador default, também chamado de package private. Neste caso, os membros da classe só serão visíveis DENTRO DO MESMO PACOTE.
+	
+	-private:
+	#########
+		private é o mais restritivo de todos os modificadores de acesso. Membros definidos como private só podem ser acessados de DENTRO DA CLASSE e de nenhum outro lugar, independente de pacote ou herança.
+
+	-encapsulamento:
+	----------------
+		Segundo os bons princípios do encapsulamento, a implementação dos métodos deve estar encapsulada e não deve fazer diferença para o usuário. O que é importante em uma classe é o que ela faz e não como ela faz. O que ela faz é definido pelos comportamentos expostos, ou seja, pelos métodos e suas assinaturas.
+		Mantendo os detalhes de implementação de nossas classes "escondidos", evitamos que mudanças na forma de implementar uma lógica quebre vários pontos de nossa aplicação. Caso precisemos acessar um desses atributos a partir de outra classes, teremos que criar um método para liberar o acesso de leitura desse atributo, Da mesma forma , se precisarmos liberar a escrita de algum atributo(getters e setters).
+
+	-referências e tipos primitivos:
+	################################
+		-A pilha de execução é o "lugar" onde são empilhados os métodos invocados na mesma ordem em que foram chamados. O heap é o "lugar" onde são guardados os objetos criados durante a execução.
+		-para tipos primitivos ,a passagem de parâmetros é feita por cópia de valores. Dessa forma, mudanças nos valores das variáveis definidas na lista de parâmetros de um método não afetam variáveis de outros métodos.
+		-No caso das referências, como são variáveis não primitivas, elas guardam referências e, neste caso, são referências que apontam para o mesmo objeto. Modificações nesse objeto podem ser executadas através de ambas as referências.
+
+//---------------------------------------------------------------------------------------------------------------------------------
+
+-Herança:
++++++++++
+
+	Herança entre classes permite que um código seja REAPROVEITADO, de maneira que a classe filha reutilize o código da parte mãe, preocupando-se principalmente em sua ESPECIALIZAÇÃO. A filha ESPECIALIZA a classe mais GENÉRICA. Herança em Java pode ser entre classes, reaproveitando membros, ou herança de uma interface, com a qual reaproveitamos interfaces de métodos. Vale lembrar que toda classe herda de Object.
+	Para podermos herdar de uma classe, a classe mãe precisa ser visível pela classe filha e pelo menos um de seus construtores também. Além disso, a classe mãe não pode ser final.
+	Todos os métodos e atributos de uma classe mãe são herdados (independente das visibilidades). Dependendo da visibilidade e das classes envolvidas, a classe filha não consegue enxergar o membro herdado. Por exemplo, se herdamos o atributo mas não o enxergamos diretamente.
+	
+	NÃO EXISTE HERANÇA DE MÉTODOS ESTÁTICOS. Mas quando herdamos de uma classe com métodos estáticos, podemos chamar o método da classe mãe usando o nome da filha (embora não seja uma boa prática). Por não existir herança, o modificador ABSTRACT não é aceito em métodos estáticos.
+
+Podemos até escrever na classe filha um método estático de mesmo nome, mas isso não é sobrescrita (alguns chamam de redefinição):
+	Uma classe FINAL não pode ser herdada.
+	
+	obs: ciclo de herança não é permitido.(A->B, B->C, C->A. Indiretamente, C herda dela mesma).
+	obs: não existe herança múltipla. class A extends B, C{} -> ERRADO
+
+	
+	REESCRITA ou SOBRESCRITA é a maneira como uma subclasse pode redefinir o comportamento de um método que foi herdado de uma das suas superclasses (direta ou indiretamente). Qual método será executado é descoberto em tempo de execução (a assinatura é decidida em tempo de compilação!), isso é a chamada virtual de método (virtual method invocation).
+	
+	Para reescrever um método, é necessário:
+		exatamente o mesmo nome;
+		os parâmetros têm que ser iguais em tipo e ordem (nomes podem mudar);
+		retorno do método deve ser igual ou mais específico que o da mãe;
+		visibilidade deve ser igual ou maior que o da mãe;
+		exceptions lançadas devem ser iguais ou menos que na mãe;
+		método na mãe não pode ser final.
+	
+	o RETORNO COVARIANTE permite que a classe filha tenha um retorno igual ou mais específico polimorficamente (um subtipo).
+	
+	Um método reescrito só pode lançar as mesmas exceções checked ou menos que o métodos que está sendo reescrito (quanto às unchecked, não há regras e sempre podemos lançar quantas quisermos).
+
+	-tipo de referências e tipo de objetos:
+	#######################################
+		Sempre que estendemos alguma classe ou implementamos alguma interface, estamos relacionando nossa classe com a classe mãe ou interface usando um relacionamento chamado de É UM. Por exemplo, se Carro extends Veiculo, dizemos que Carro É UM Veiculo. Ou se ArrayList implements List dizemos que ArrayList É UM List.
+		O relacionamento de É UM é um dos recursos mais poderosos da orientação a objetos. E é chamado formalmente de POLIMORFISMO.
+		POLIMORFISMO é a capacidade que temos de referenciar um objeto de formas diferentes, segundo seus relacionamentos de é um.
+	
+		As heranças e implementações vão formando uma árvore que terá sempre como raiz a classe Object. Assim, direta ou indiretamente, todo objeto é um Object.
+		
+		O polimorfismo pode ser aplicado à passagem de parâmetros (e é aí que está seu grande poder), dessa forma, conseguimos obter um forte reaproveitamento de código.
+
+. Imagine as classes:
+			
+			void metodo (Veiculo v) {
+
+			}
+
+			metodo(new Carro());
+			metodo(new Moto());
+			metodo(new Onibus());
+			metodo(new Veiculo());
+			metodo(new Conversivel());
+		
+		Repare que, quando usamos polimorfismo, estamos mudando o tipo da referência, mas nunca o tipo do objeto. Em Java, objetos nunca mudam seu tipo, que é aquele onde demos new. O que fazemos é chamar (referenciar) o objeto de várias formas diferentes. Chamar de várias formas(polimorfismo).
+
+		E como funciona o acesso às variáveis membro e aos métodos? Se temos uma referência para a classe mãe, não importa o que o valor seja em tempo de execução, o compilador não conhece o tempo de execução, então ele só compila chamadas aos métodos definidos na classe mãe. Mesmo em casos em que "achamos" que todo veículo tem, se o método não foi definido na classe de referência, o codigo não compila. O mesmo valerá para variáveis membro.
+
+		Se estivermos trabalhando com pacotes distintos, se o método da classe pai que está sendo sobrescrito é public, os métodos que sobrescrevem devem ser public, então não tem muita graça. Já se o método da classe pai é protected, os filhos são protected ou public, que também não tem graça, pois o filho - mesmo em outro pacote - já tinha acesso ao método do pai. No caso de ter métodos default ou private, o método não é sobrescrito, a classe filha nem sabe da existência do método do pai, portanto o que ela fez foi criar um método totalmente novo.
+	
+	-cast:
+	#######
+		Quando o cast deve e pode ser utilizado?
+		ex: String recuperada = objetos[0];
+		
+		Temos um array de referências para Object. Nem todo Object é uma String, então o compilador não vai deixar você fazer essa conversão. Lembre-se que, em geral, o compilador não conhece os valores das variáveis, apenas seus tipos.
+Vamos precisar moldar a referência para que o código compile:
+		    String recuperada = (String) objetos[0];
+		
+		o casting vai ver se aquele objeto é mesmo compatível com o tipo String (no nosso caso é). Se não fosse, ele lançaria uma ClassCastException (exceção unchecked).
+		
+		
+		considerando o código:		
+		    class Veiculo {}
+		    class Moto extends Veiculo {}
+		    class Carro extends Veiculo {}
+		    Veiculo v = new Carro();
+		    Moto m = v;
+				
+		Na primeira linha, usamos polimorfismo para chamar um Carro de Veiculo (é um). Na segunda linha, o que o compilador sabe é que v é do tipo Veiculo. E nem todo Veiculo é uma Moto. Por isso, essa linha não compila.
+Mas existem alguns Veiculo que são Moto. Então, o compilador deixa que façamos o casting:
+			
+		    Veiculo v = new Carro();
+		    Moto m = (Moto) v;
+		
+		v aponta para um objeto do tipo Carro. Quando o código for executado, haverá um erro de execução: ClassCastException. Carro não é uma Moto.
+		
+		
+		Castings impossíveis não podem ser feitos. Por exemplo, se tentarmos fazer um cast de um objeto do tipo Carro para Moto, o compilador acusará erro, pois um Carro nunca será uma moto.
+		
+		Regra Geral:
+		Se você está SUBINDO na hierarquia de classes, a autopromoção vai fazer tudo AUTOMÁTICO; e se você estiver DESCENDO, vai precisar de CASTING. Se não houver um caminho possível, não compila nem com casting.
+		
+		-super e this:
+		##############
+		
+		super() ou this()  devem ser sempre as PRIMEIRAS instruções de um CONSTRUTOR. Se nenhuma instrução é colocada, automaticamente é feito um super. this referencia construtores da classe atual, já o super construtores da classe mãe.
+		loops em construtores são percebidos e não compilam.
+		
+		 O uso do this para atributos serve para acessar variáveis da do objeto e portanto de seu pai(dependendo do modifecador de acesso). Já com o super, acessamos apenas variáveis do pai. Se tentarmos acessar variáveis da classe atual com super dará erro.
+		
+		Um construtor pode ser sobrecarregado assim como os métodos, e pode ter qualquer modificador de visibilidade.O ponto mais importante sobre os construtores é que, para construir um objeto de uma classe filha, obrigatoriamente, precisamos chamar um construtor da classe mãe antes. Sempre, em todos os casos. Para chamar o construtor da mãe, usamos a chamada ao super (passando ou não argumentos). Mas, na maioria dos casos, não chamamos o construtor da mãe explicitamente. Se nenhum construtor da mãe foi escolhido através da palavra super(...), o compilador coloca automaticamente super(); no começo do nosso construtor, sem nem olhar para a classe mãe.
+
+		Uma outra possibilidade, no caso de termos mais de um construtor, é chamarmos outro construtor da própria classe através do this().
+
+		Atenção, a chamada do construtor com super ou this só pode aparecer como primeira instrução do construtor. Portanto, só podemos fazer uma chamada desses tipos.
+		
+		-métodos abstratos:
+		###################
+		
+			Uma classe abstrata pode não ter nenhum método abstrato. Se uma classe tem um método que é abstrato, ela deve ser declarada como abstrata, ou não compilará.
+
+			Uma classe abstrata não pode ser instanciada diretamente sem ser HERADADA.
+
+			Um método abstrato é um método SEM CORPO, somente com a DEFINIÇÃO. Uma classe que tem um ou mais métodos abstratos precisa ser declarada como ABSTRATA.
+
+			Um método abstrato tem de ser reescrito ou herdado pelas suas filhas concretas.
+			
+			O método liga foi implementado na classe filha, então ela pode ser concreta. Basta pensar que métodos abstratos herdados são responsabilidades herdadas: você não poderá ser um objeto concreto enquanto tiver responsabilidades a serem tratadas. Quando herdamos de uma classe abstrata que possui um método abstrato, temos que escolher: ou implementamos o método, ou somos abstratos também e passamos adiante a responsabilidade. Note que a classe pode implementar o método e mesmo assim também ser abstrata.
+
+		-interfaces:
+		############
+			
+			Uma interface declara métodos que deverão ser implementados pelas classes concretas que queiram ser consideradas como tal. Por padrão, são todos métodos PÚBLICOS E ABSTRATOS.
+			Quando você implementa a interface em uma classe concreta, é preciso implementar todos os métodos. Similarmente, ao herdar uma classe abstrata, a classe concreta deve implementar todos os métodos que não foram implementados ainda:
+			Valem as mesmas regras de quando você herda de uma classe abstrata: ou você tem todos os métodos reescritos, e aí pode declará-la como concreta, ou então você precisa declará-la como abstrata.
+			Uma interface, por sua vez, pode estender outra interface, herdando suas responsabilidades e constantes. Uma interface pode estender mais de uma interface! Contudo, uma interface não pode implementar outra interface.
+
+//---------------------------------------------------------------------------------------------------------------------------------
+
+-Excessões:
+++++++++++++
+	Durante a execução de uma aplicação, erros podem acontecer. A linguagem Java oferece um mecanismo para que o programador possa definir as providências apropriadas a serem tomadas na hora em que um erro de execução ocorrer.
+	Os erros de execução são classificados em algumas categorias. É fundamental determinar seu tipo. A classificação das categorias depende exclusivamente da hierarquia das classes que modelam os erros de execução.
+	A classe principal dessa hierarquia é a Throwable. Qualquer erro de execução é um objeto dessa classe ou de uma que deriva dela. Como filhas diretas de Throwable temos: Error e Exception.
+	
+		Os Errors são erros de execução gerados por uma situação totalmente anormal que não deveria ser prevista pela aplicação. Por exemplo, um OutOfMemoryError é gerado quando a JVM não tem mais memória RAM disponível para oferecer para as aplicações. Em geral, esse tipo de erro não é responsabilidade das aplicações pois quem cuida do gerenciamento de memória é a JVM.
+		Por outro lado, as Exceptions são erros de execução que são de responsabilidade das aplicações, ou seja, são as aplicações que devem tratar ou evitar esses erros. Por exemplo, um SQLException é gerado quando algum erro ocorre na comunicação entre a aplicação e o banco de dados. Esse tipo de erro deve ser tratado ou evitado pela aplicação.
+		
+		Por sua vez, as Exceptions são divididas em duas categorias: as uncheckeds e as checkeds. As ::uncheckeds:: são exceptions que teoricamente podem ser mais facilmente evitadas pelo próprio programador se ele codificar de maneira mais cuidadosa. As ::checkeds:: são exceptions que teoricamente não são fáceis de evitar, de modo que a melhor abordagem é estar sempre preparado para seu acontecimento.
+		 As uncheckeds são definidas pelas classes que derivam de RuntimeException, que por sua vez é filha direta de Exception. As outras classes na árvore da Exception definem as checkeds.
+
+		+++++++++++
+	_______+Throwable+__________
+	|	+++++++++++ 	    |	
+	|			    |
+   +++++++++++                     | 
+   +Exception+			++++++++++++
+   +++++++++++			+   Error  +
+	|			++++++++++++
+	|______________________
+	|	               |
+++++++++++++++++++	+++++++++++++	
++RunTimeException+	+IOException+	
+++++++++++++++++++	+++++++++++++	
+		
+	O compilador irá verificar se seu programa pode lançar alguma checked exception e, neste caso, obrigá-lo a tratar essa exception de alguma maneira. No caso das exceptions unchecked, não há nenhuma verificação por parte do compilador pelo tratamento ou não.
+
+	Pense como seria difícil tratar todas as situações possíveis que fogem do padrão de comportamento que estamos desejando. Nesse caso, o comportamento padrão, aquilo que acontece na maioria das vezes e que esperamos que aconteça. Não queremos ter que verificar toda vez se o valor é válido, e não queremos entupir nosso código com diversos ifs para diversas condições. As exceções à regra, as exceptions, são a alternativa para o controle de fluxo: em vez de usarmos ifs para controlar o fluxo que foge do padrão, é possível usar as exceptions para esse papel. 
+	O importante é lembrar que as exceptions permitem que isolemos o tratamento de um comportamento por blocos, separando o bloco de lógica de nosso negócio do bloco de tratamentos de erros
+
+	O programador pode definir um tratamento para qualquer tipo de erro de execução. Antes de definir o tratamento, propriamente, é necessário determinar o trecho de código que pode gerar um erro na execução. Isso tudo é feito com o comando try-catch.A sintaxe do try-catch tem um bloco para o programador definir o trecho de código que pode gerar um erro de execução. Esse bloco é determinado pela palavra try. O programador também pode definir quais tipos de erro ele quer pegar para tratar. Isso é determinado pelo argumento do catch. Por fim, o tratamento é definido pelo bloco que é colocado após o argumento do catch.
+
+	Em runtime, se um erro acontecer, a JVM redireciona o fluxo de execução da linha do bloco do try que gerou o erro para o bloco do catch. As linhas do bloco do try abaixo daquela que gerou o erro não serão executadas. 
+	Fazer um catch em Throwable não é uma boa prática, pois todos os erros possíveis são tratados pela aplicação. Porém, os Errors não deveriam ser tratados pela aplicação, já que são de responsabilidade da JVM. Assim, também não é boa prática dar catch em Errors. 
+	A única restrição de uso do try-catch envolve as checked exceptions. Qual é a regra? O programador só pode usar try-catch em uma checked exception se o código do bloco do try pode realmente lançar a checked exception em questão.
+
+	Eventualmente, um método qualquer não tem condição de tratar um determinado erro de execução. Nesse caso, esse método pode deixar passar o erro para o próximo método na pilha de execução. Para deixar passar qualquer erro de execução que não seja uma checked exception, é muito simples: basta não fazer nada.
+	Agora, para deixar passar uma checked exception, o método é obrigado a deixar explícito (avisado) que pretende deixar passar. Na assinatura do método, o programador pode deixar avisado que pretende deixar passar determinados erros de execução. Isso é feito através da palavra-chave throws
+	
+	-alguns exceptions:
+	####################
+	
+	ArrayIndexOutOfBoundsException e IndexOutOfBoundsException: 
+	------------------------------------------------------------
+		Um ArrayIndexOutOfBoundsException ocorre quando se tenta acessar uma posição que não existe em um array.Da mesma maneira, quando tentamos acessar uma posição não existente em uma lista , a exception é diferente, no caso IndexOutOfBoundsException.
+	
+	NullPointerException:
+	----------------------
+		Toda vez que o operador . é utilizado em uma referência nula, um NullPointerException é lançado.
+		
+	ClassCastException:
+	-------------------
+		Quando é feito um casting em uma referência para um tipo incompatível com o objeto que está na memória em tempo de execução, ocorre um ClassCastException.
+
+	NumberFormatException:
+	----------------------
+		Um problema comum que o programador enfrenta no dia a dia é ter que "transformar" texto em números. A API do Java oferece diversos métodos para tal tarefa. Porém, em alguns casos não é possível "parsear" o texto, pois ele pode conter caracteres incorretos.
+
+	IllegalArgumentException:
+	-------------------------
+		Qualquer método deve verificar se os valores passados nos seus parâmetros são válidos. Se um método constata que os parâmetros estão inválidos, ele deve informar quem o invocou que há problemas nos valores passados na invocação. Para isso, é aconselhado que o método lance IllegalArgumentException.
+
+	IllegalStateException:
+	----------------------
+		Suponha que uma pessoa possa fazer três coisas: dormir, acordar e andar. Para andar, a pessoa precisa estar acordada. A classe Pessoa modela o comportamento de uma pessoa. Ela contém um atributo boolean que indica se a pessoa está acordada ou dormindo e um método para cada coisa que uma pessoa faz (dormir(), acordar() e andar()).
+
+O método andar() não pode ser invocado enquanto a pessoa está dormindo. Mas, se for, ele deve lançar um erro de execução. A biblioteca do Java já tem uma classe pronta para essa situação, a classe é a IllegalStateException. Ela significa que o estado atual do objeto não permite que o método seja executado.
+
+//------------------------------------------------------------------------------------------------------------------------------//
+
+formatos de impressão:
+++++++++++++++++++++++
+	%type é o tipo de argumento que será passado e suporta os seguintes valores:
+
+	b - boolean
+	c - char
+	d - Números inteiros
+	f - Números decimais
+	s - String
+	n - Quebra de linha
+
+	width indica a quantidade mínima de caracteres para imprimir. Completa com espaços à esquerda caso o valor seja menor que a largura mínima. Caso seja maior, não faz nada:
+	ex: System.out.printf("[%5d]%n", 22);       //[   22]
+
+	
+	flags são caracteres especiais que alteram a maneira como a impressão é feita. Para a prova, é importante conhecer alguns, dentre os quais os dois que indicam se o número é positivo ou negativo:
+
+		+ - Sempre inclui um sinal de positivo (+) ou negativo (-) em números.
+		( - Números negativos são exibidos entre parênteses.
+	Dois de alinhamento à esquerda ou direita:
+
+		- - Alinha à esquerda. Precisa de tamanho para ser usado.
+		0 - Completa a esquerda com zeros. Precisa de tamanho para ser usado.
+	Juntamente com o tamanho mínimo, podemos usar a ::flag:: de alinhamento e de completar com zeros:
+	
+	ex: 	System.out.printf("[%05d]%n", 22);    //[00022]
+		System.out.printf("[%-5s]%n", "foo"); //[foo  ]
+
+	Temos uma flag para separar casa de milhares e decimais:
+
+		, - Habilita separadores de milhar e decimal.
+
+	ex: 	System.out.printf("%+d %n", 22);       //+22 
+		System.out.printf("%,f %n", 1234.56);  //1,234.560000
+		System.out.printf("%(f %n", -1234.56); //(1234.560000)
+	
+	Precision indica quantas casas queremos depois da vírgula, basta usar um . seguido do número de caracteres. Vale lembrar que só é possível mudar a precisão quando estamos formatando números decimais.
+[
+	ex: 	System.out.printf("[%.2f]%n", 22.5); //[22.50]
+//-------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+::Wrappers:: são classes de objetos que representam tipos primitivos. Existe um ::wrapper:: para cada primitivo(boolean : Boolean; byte : Byte ;short : Short ;char : Character int : Integer ;long : Long ;float : Float;;double : Double)
+		
+		
+Todos os ::wrappers:: numéricos possuem dois construtores, um que recebe o tipo primitivo, e um que recebe String. O construtor que recebe String pode lançar NumberFormatException, se a String fornecida não puder ser convertida ao tipo em questão:
+	ex: Double d1 = new Double(22.5);  
+	    Double d2 = new Double("22.5");
+
+A classe Character possui apenas um construtor, que recebe um char como argumento
+	ex: Character c = new Character('d');
+	
+A classe Boolean também possui dois construtores, um que recebe boolean e outro que recebe String. Caso a String passada como argumento tenha o valor "true", com maiúsculas ou minúsculas, o resultado será true; qualquer outro valor resultará em false.
+
+CONVERSOES:
+	
+	wrapper -> primitivo:
+	
+		Numéricos:  xxxValue();
+		ex: byte b = l.byteValue();
+		    double d = l.doubleValue();
+		    int i = l.intValue();
+ 		    short s = l.shortValue();
+		
+		Character e Boolean:
+		ex: boolean b = new Boolean("true").booleanValue();
+		    char c = new Character('z').charValue();
+		    
+	String -> primitivos : parseXXX(método presente em cada wrapper)
+		esse método para tipos numéricos podem receber um segundo argumento, que indica a base numérica usada:
+		ex: short i1 = Short.parseShort("11",10); // 11  Decimal	
+		    int i2 = Integer.parseInt("11",16);   // 17  HexaDecimal
+		    byte i3 = Byte.parseByte("11",8);     // 9   Octal
+		    
+	String -> wrapper: valueOf(). muito parecida com parseXXX, podendo até receber o segundo parâmetro da base numérica.
+
+	numérico -> String: toString();
+	ex: String d = Double.toString(23.5);
+	    String s = Short.toString((short)23);		
+	    
+-Autoboxing:
+	Até o Java 1.4 não era possível executar operações em cima de ::wrappers::. Por exemplo, para incrementar um Integer, era necessário transformá-lo em primitivo, incrementar e transformar em wrapper novamente.
+	A partir do Java 5, foi incluído um recurso chamado autoboxing. O próprio compilador é responsável por transformar os ::wrappers:: em primitivos (::unboxing::) e primitivos em ::wrappers:: (::boxing::). Agora, o valor de um wrapper pode ser incrementado diretamente.
+	
+	primitivo --boxing--> wrapper
+	wrapper   --unboxing-> primitivo
+	
+//-------------------------------------------------------------------------------------------------------------------------------------------------------//
+	+Manipulaçã de dados de calendário:(java.time)
+	+++++++++++++++++++++++++++++++++++
+	
+	LocalDate = data sem hora
+	LocalTime = hora
+	LocalDateTime = data com hora
+	MonthDay = dia de um mes
+	YearMonth = mes e ano
+	
+	LocalDate d = LocalDate.now(); //data atual
+	LocalTime t = LocalTime.now();
+	LocalTime t2 = LocalTime.now(ZoneId.of("America/Sao_Paulo")); //adicionar fuso-horário
+	LocalDateTime dt = LocalDateTime.now();
+	
+	LocalTime t3 = LocalTime.of(12, 0); //data personalizada hh,mm,ss
+	LocalDate d2 = LocalDate.of(2014,12,25); // yyy,mm,dd
+	LocalDateTime dt2 = LocalDateTime.of(2014,12,25,12,0); //yyy,mm,dd,hh,mm,ss
+	
+	System.out.println(dt.getDayOfMonth());
+	System.out.println(dt.getHour());
+	System.out.println(dt.getYear());
+	[...]
+	
+	System.out.println(dt.get(ChronoField.DAY_OF_WEEK)); //evita if-else's
+	System.out.println(dt.get(ChronoField.DAY_OF_MONTH));
+	
+	System.out.println(day1.isBefore(day2));
+	System.out.println(day1.isAfter(day2));
+	System.out.println(day1.isEquals(day2));
+	
+	Só é possível acessar campos que existem no objeto, caso contrário, ocorrerá erro de compilação.
+	
+	Assim como as strings, esses objetos são imutáveis, portanto se alguma modificação precisar ser feita, um novo objeto é criado.
+	
+	LocalDate d2 = d.withMonth(4).withYear(14); //retorna um novo LocalDate com o mes setado em 4
+	
+	LocalDate d3 = d.plusDays(5).plusYear(4).minusMonths(2); //operações com datas
+	LocalDate d4 = d.minus(4, ChronoUnit.YEARS); //operação com Chrono
+	
+	-conversão de tipos:
+	--------------------
+	LocalDateTime ldt = LocalDateTime.now();
+	LocasDate ld = ldt.toLocalDate();
+	LocalTime lt = ldt.toLocalTime();
+	
+	LocalDateTime ltd2 = ld.atTime(lt);
+	LocalDateTime ltd3 = ld.atDate(ld);
+	
+	//--converter api antiga para nova--//
+
+	Date d = new Date();
+	Instant i = d.toInstant();
+	LocalDateTime ldt = LocalDateTime.ofInstant(i, ZoneId.systemDefault()); //fuso-horário da SO]
+
+	Instant i1 = ldt.toInstant(ZoneOffset.UTC);
+	Date d2 = Date.from(i1);
+	Calendar
+
+	//--operações--//
+
+	Instant i = Instant.now();
+	Duration dur = Duration.ofSeconds(10);
+	Instant i2 = i.plus(dur);
+
+	Instant t1 = Instant.EPOCH; //01-01-1970 onde o tempo começou a ser contado
+	Instant t2 = Instant.now();
+	long seconds = Duration.between(t1,t2).getSeconds(); //duration da em unidade de tempo muito pequena
+
+	LocalDate aniversario = LocalDate.of(2000,1,31);
+	LocalDate agora = LocalDate.now();
+	System.out.println(ChronoUnit.YEARS.between(aniversario, agora)); //diferença de tempo em anos
+	System.out.println(ChronoUnit.MONTHS.between(aniversario, agora));
+
+	--para um formato melhor(acumulativo):
+
+	Period tempoDeVida = Period.between(aniversario, agora);
+	System.out.println(tempoDeVida.getYears);
+	System.out.println(tempoDeVida.getMonths);
+	System.out.println(tempoDeVida.getDays);
+
+	//--conversão e formatação--//
+
+	LocalDateTime agora = LocalDateTime.now();
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyy"); //se houver erro no formato, ocorre uma excessão
+	//LocalDate* -> data
+	System.out.println(formatter.format(agora)); //"formatador, formate a data"					
+	System.out.println(agora.format(formatter)); //"data, formate com base nesse formatador"
+
+	String data = LocalDate.parse("31/01/2020", formatter); //data para string
+//-------------------------------------------------------------------------------------------------------------------------------------//
+
++Expressões lambda:
++++++++++++++++++++
+	Imaginando a situação em que fosse necessário realizar uma busca com alguns critérios , poderíamos utilizar uma classe funcional e alguns outros métodos para isso. ex:
+
+		class Person {
+		    private String name;
+		    private int age;
+		    //...
+		}
+
+		interface Matcher<T>{
+		    boolean test(T t);
+		}
+
+		class PersonFilter{
+
+		    public List<Person> filter(List<Person> input, 
+		                               Matcher<Person> matcher){
+		        List<Person> output = new ArrayList<>();
+		        for (Person person : input) {
+		            if(matcher.test(person)){
+		                output.add(person);
+		            }
+		        }    
+		        return output;
+		    }
+		}
+
+	O problema é que sempre que um novo critério for necessário, um novo método deverá ser adicionado, mesmo que for usado somente uma vez. Com as classe anônimas é possível diminuir esse impacto, mas a legibilidade fica comprometida:
+
+
+		List<Person> adults = pf.filter(persons, new Matcher<Person>() {
+		    @Override
+		    public boolean test(Person p) {
+		        return p.getAge() >= 18;
+		    }
+		});
+
+		Com o lâmbida, esses problemas podem ser resolvidos. Um lâmbida é um trecho de código que pode ser passado como parâmetro para
+	um método ou ser armazenado em uma variável para ser invocado posteriormente.															Para usar um ::lambda:: em Java, precisamos de uma interface funcional. Interfaces funcionais são interfaces normais, mas
+	com apenas um método. Nossa interface Matcher pode ser considerada funcional. É possível checar se uma interface é funcional usando a ::annotation:: FunctionalInterface, se não for funcional, o código não compila:
+		A sintaxe básica do lambda é a seguinte:
+			( parameters ) -> { code }
+
+	Não há necessidade de criar classes, nem mesmo anônimas. A inclusão dos ::lambdas:: nos permite escrever código altamente adaptável e ainda reduzir muito a verbosidade comum do Java.
+//-------------------------------------------------------------------------------------------------------------------------------------//
+	
+	+Encapsulamento:
+	++++++++++++++++
+		Técnica de esconder atributos e detalhes de implementação de um objeto, para que quando eles sejam alterados tal alteração não tenha que ser replicada em vários lugares do sistema.
+		Em Java, a forma mais simples de se obter um código encapsulado é declarando os atributos de uma classe como private, evitando
+		com isso que outros objetos possam acessar e manipular estes atributos. Caso desejemos que outros objetos tenham acesso a estes dados, liberamos por meio de métodos, controlando como será feita a leitura e escrita das informações.
+		
+
+	
+
+
+obs:	
+	varargas: Conjunto de dados. ex: String... args; Um varargs é um array, mas uma array não é um varargs; Pode passar uma qunatiddade indefinida de dados por parametro.
+	StringBuffer: Classe para trabalhar com strings, onde essas são MUTÁVEIS, diferente da classe String, onde são IMUTÁVEIS
+	divisão entre números inteiros gera um resultado inteiro independente do tipo de variável que recebe o resultado.
+	instanceof.
+	não existe método final.
+	exceptions não são maneiras de aumentar a segurança.
+	O método print não possui versão sem argumentos.
